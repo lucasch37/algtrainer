@@ -1,9 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Table from "./components/Table/Table";
 import Trainer from "./components/Trainer/Trainer";
 
 const App = () => {
     const [view, setView] = useState("Algs");
+
+    useEffect(() => {
+        const savedView = localStorage.getItem("view");
+        if (savedView) {
+            setView(savedView);
+        }
+    }, []);
+
     return (
         <div>
             <div className="flex justify-center mt-4 underline-offset-2">
@@ -13,7 +21,10 @@ const App = () => {
                             ? "underline"
                             : "hover:underline decoration-gray-400"
                     }`}
-                    onClick={() => setView("Algs")}
+                    onClick={() => {
+                        setView("Algs");
+                        localStorage.setItem("view", "Algs");
+                    }}
                 >
                     Algs
                 </div>
@@ -23,7 +34,10 @@ const App = () => {
                             ? "underline"
                             : "hover:underline decoration-gray-400"
                     }`}
-                    onClick={() => setView("Trainer")}
+                    onClick={() => {
+                        setView("Trainer");
+                        localStorage.setItem("view", "Trainer");
+                    }}
                 >
                     Trainer
                 </div>
