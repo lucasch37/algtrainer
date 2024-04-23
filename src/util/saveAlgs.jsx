@@ -28,6 +28,7 @@ const saveAlgs = (text) => {
     const algDataString = JSON.stringify(algData);
     localStorage.setItem("algText", text);
     localStorage.setItem("algData", algDataString);
+    localStorage.setItem("selectedAlgs", algDataString);
 };
 
 export default saveAlgs;

@@ -125,7 +125,7 @@ const AddAlgs = ({ open, onClose }) => {
                             Cancel
                         </button>
                         <button
-                            className="px-4 py-2 bg-green-800 text-green-400 rounded-xl"
+                            className="px-4 py-2 bg-green-700 text-green-400 rounded-xl"
                             onClick={handleSave}
                         >
                             Save

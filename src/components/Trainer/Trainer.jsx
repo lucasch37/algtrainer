@@ -6,6 +6,8 @@ import CasePanel from "./CasePanel";
 import HintPanel from "./HintPanel";
 import StatsPanel from "./StatsPanel";
 import TimesPanel from "./TimesPanel";
+import Popup from "../Popup";
+import SelectTimes from "./SelectTimes";
 
 const Trainer = () => {
     const [time, setTime] = useState(0);
@@ -14,6 +16,7 @@ const Trainer = () => {
     const [highlighted, setHighlighted] = useState(false);
     const [savedTimes, setSavedTimes] = useState([]);
     const [alg, setAlg] = useState();
+    const [showSelectAlgs, setShowSelectAlgs] = useState(false);
 
     let inBetween = false;
     let hold = true;
@@ -46,8 +49,8 @@ const Trainer = () => {
     };
 
     const getScramble = () => {
-        const algs = JSON.parse(localStorage.getItem("algData"));
-        if (algs.length > 1) {
+        const algs = JSON.parse(localStorage.getItem("selectedAlgs"));
+        if (algs.length > 0) {
             const index = Math.floor(Math.random() * algs.length);
             setAlg(algs[index]);
             const generatedScramble = generateScramble(algs[index].alg);
@@ -88,6 +91,11 @@ const Trainer = () => {
 
     return (
         <div>
+            <SelectTimes
+                open={showSelectAlgs}
+                onClose={() => setShowSelectAlgs(false)}
+                algs={JSON.parse(localStorage.getItem("algData"))}
+            />
             <div className="flex justify-center font-semibold text-5xl mt-3">
                 Trainer
             </div>
@@ -104,8 +112,16 @@ const Trainer = () => {
                     </div>
                     <div className="justify-between flex h-[90%]">
                         <div className="w-[57%] h-full bg-gray-700 rounded-xl overflow-hidden flex items-center justify-center relative">
-                            <div className="absolute top-2 text-2xl text-blue-400">
-                                21 cases selected
+                            <div
+                                className="absolute top-2 text-2xl text-blue-400 cursor-pointer"
+                                onClick={() => setShowSelectAlgs(true)}
+                            >
+                                {localStorage.getItem("selectedAlgs")
+                                    ? JSON.parse(
+                                          localStorage.getItem("selectedAlgs")
+                                      ).length
+                                    : 0}{" "}
+                                cases selected
                             </div>
                             <div
                                 className={`font-['Menlo'] text-8xl font-bold ${
