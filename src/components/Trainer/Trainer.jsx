@@ -6,7 +6,6 @@ import CasePanel from "./CasePanel";
 import HintPanel from "./HintPanel";
 import StatsPanel from "./StatsPanel";
 import TimesPanel from "./TimesPanel";
-import Popup from "../Popup";
 import SelectTimes from "./SelectTimes";
 
 const Trainer = () => {
@@ -18,11 +17,18 @@ const Trainer = () => {
     const [alg, setAlg] = useState();
     const [showSelectAlgs, setShowSelectAlgs] = useState(false);
 
+    //settings
+    const [use3D, setUse3D] = useState(true);
+    const [useAUF, setUseAUF] = useState(true);
+    const [showAlg, setShowAlg] = useState(false);
+    const [cn, setCn] = useState(false);
+
     let inBetween = false;
     let hold = true;
 
     const handleKeyDown = (event) => {
         if (event.code === "Space") {
+            event.preventDefault();
             if (inBetween && hold && !runTimer) {
                 //stops timer
                 setRunTimer(false);
@@ -35,6 +41,7 @@ const Trainer = () => {
 
     const handleKeyUp = (event) => {
         if (event.code === "Space") {
+            event.preventDefault();
             if (runTimer) {
                 setRunTimer(false);
             } else if (!inBetween) {
@@ -48,12 +55,17 @@ const Trainer = () => {
         }
     };
 
-    const getScramble = () => {
+    const getScramble = (AUF, cn) => {
         const algs = JSON.parse(localStorage.getItem("selectedAlgs"));
         if (algs.length > 0) {
             const index = Math.floor(Math.random() * algs.length);
             setAlg(algs[index]);
-            const generatedScramble = generateScramble(algs[index].alg);
+            console.log(AUF);
+            const generatedScramble = generateScramble(
+                algs[index].alg,
+                AUF,
+                cn
+            );
             setScramble(generatedScramble);
         }
     };
@@ -62,7 +74,23 @@ const Trainer = () => {
         if (JSON.parse(localStorage.getItem("times"))) {
             setSavedTimes(JSON.parse(localStorage.getItem("times")));
         }
-        getScramble();
+        if (JSON.parse(localStorage.getItem("settings"))) {
+            console.log(JSON.parse(localStorage.getItem("settings")));
+            setUse3D(JSON.parse(localStorage.getItem("settings"))[0]);
+            setUseAUF(JSON.parse(localStorage.getItem("settings"))[1]);
+            setShowAlg(JSON.parse(localStorage.getItem("settings"))[2]);
+            setCn(JSON.parse(localStorage.getItem("settings"))[3]);
+            getScramble(
+                JSON.parse(localStorage.getItem("settings"))[1],
+                JSON.parse(localStorage.getItem("settings"))[3]
+            );
+        } else {
+            setUse3D(true);
+            setUseAUF(true);
+            setShowAlg(false);
+            setCn(false);
+            getScramble(true, false);
+        }
         document.addEventListener("keydown", handleKeyDown);
         document.addEventListener("keyup", handleKeyUp);
         return () => {
@@ -81,12 +109,59 @@ const Trainer = () => {
             };
             setSavedTimes((prev) => [...prev, data]);
             saveTime(JSON.stringify([...savedTimes, data]));
-            getScramble();
+            getScramble(useAUF, cn);
         }
     }, [runTimer]);
 
     const saveTime = (times) => {
         localStorage.setItem("times", times);
+    };
+
+    const handleCheck = (name) => {
+        if (name === "3d") {
+            setUse3D((prevUse3D) => {
+                const newValue = !prevUse3D;
+                saveSettings(name, newValue);
+                return newValue;
+            });
+        } else if (name === "auf") {
+            setUseAUF((prevUseAUF) => {
+                const newValue = !prevUseAUF;
+                saveSettings(name, newValue);
+                return newValue;
+            });
+        } else if (name === "showAlg") {
+            setShowAlg((prevShowAlg) => {
+                const newValue = !prevShowAlg;
+                saveSettings(name, newValue);
+                return newValue;
+            });
+        } else if (name === "cn") {
+            setCn((prevCn) => {
+                const newValue = !prevCn;
+                saveSettings(name, newValue);
+                return newValue;
+            });
+        }
+    };
+
+    const saveSettings = (name, value) => {
+        const settings = JSON.parse(localStorage.getItem("settings")) || [
+            use3D,
+            useAUF,
+            showAlg,
+            cn,
+        ];
+        if (name === "3d") {
+            settings[0] = value;
+        } else if (name === "auf") {
+            settings[1] = value;
+        } else if (name === "showAlg") {
+            settings[2] = value;
+        } else if (name === "cn") {
+            settings[3] = value;
+        }
+        localStorage.setItem("settings", JSON.stringify(settings));
     };
 
     return (
@@ -157,9 +232,46 @@ const Trainer = () => {
                     </div>
                 </div>
             </div>
-            <div className="flex justify-center">
+            <div className="flex justify-center items-center mt-2">
+                <div className="font-bold mr-2 text-2xl">Settings:</div>
+                <div className="border rounded-xl p-1 px-2 mr-2">
+                    <input
+                        type="checkbox"
+                        className="mr-1"
+                        checked={use3D}
+                        onChange={() => handleCheck("3d")}
+                    />
+                    <label className="text-xl">Use 3D Cube</label>
+                </div>
+                <div className="border rounded-xl p-1 px-2 mr-2">
+                    <input
+                        type="checkbox"
+                        className="mr-1"
+                        checked={useAUF}
+                        onChange={() => handleCheck("auf")}
+                    />
+                    <label className="text-xl">Use AUF</label>
+                </div>
+                <div className="border rounded-xl p-1 px-2 mr-2">
+                    <input
+                        type="checkbox"
+                        className="mr-1"
+                        checked={showAlg}
+                        onChange={() => handleCheck("showAlg")}
+                    />
+                    <label className="text-xl">Show Alg</label>
+                </div>
+                <div className="border rounded-xl p-1 px-2 mr-2">
+                    <input
+                        type="checkbox"
+                        className="mr-1"
+                        checked={cn}
+                        onChange={() => handleCheck("cn")}
+                    />
+                    <label className="text-xl">Color Neutral</label>
+                </div>
                 <button
-                    className="text-center bg-red-800 text-red-300 px-3 py-2 rounded-xl mt-2"
+                    className="text-center text-xl underline text-red-500"
                     onClick={() => {
                         localStorage.removeItem("times");
                         localStorage.removeItem("ao5");

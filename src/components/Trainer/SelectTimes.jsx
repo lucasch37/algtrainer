@@ -20,7 +20,6 @@ const Alg = ({ alg, state, setSelectedAlgs, setCount, open }) => {
     }, [open]);
 
     useEffect(() => {
-        console.log(state);
         if (state === "t") {
             setSelected(true);
         } else if (state === "f") {
@@ -73,7 +72,6 @@ const SelectTimes = ({ open, onClose, algs }) => {
     const [count, setCount] = useState(0);
 
     const handleSave = () => {
-        console.log(selectedAlgs);
         localStorage.setItem("selectedAlgs", JSON.stringify(selectedAlgs));
         window.location.reload();
     };

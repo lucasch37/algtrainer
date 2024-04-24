@@ -24,7 +24,7 @@ const Table = () => {
             </div>
             <div className="flex justify-center mt-4">
                 <button
-                    className="px-3 py-2 rounded-xl bg-green-700 text-green-400 flex items-center"
+                    className="px-3 py-2 rounded-xl bg-green-800 text-green-400 flex items-center"
                     onClick={() => {
                         setShowAddMenu(true);
                     }}

@@ -48,7 +48,7 @@ const TimesPanel = ({ times, setSavedTimes }) => {
                     <div className="mt-2">{selectedTime.name}</div>
                     <img
                         src={`http://cube.rider.biz/visualcube.php?fmt=svg&bg=t&size=200&alg=${
-                            "y2 " + convertAlg(selectedTime.scramble)
+                            "y2 " + selectedTime.scramble
                         }`}
                         alt={selectedTime.name}
                         className="w-[40%]"
