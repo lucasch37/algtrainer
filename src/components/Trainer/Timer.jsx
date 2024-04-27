@@ -18,7 +18,7 @@ const Timer = ({ runTimer, setTime, time }) => {
         };
     }, [runTimer]);
 
-    return <h1 className="text-8xl">{formatTime(time)}</h1>;
+    return <h1>{formatTime(time)}</h1>;
 };
 
 export default Timer;

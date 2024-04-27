@@ -8,7 +8,8 @@ import StatsPanel from "./StatsPanel";
 import TimesPanel from "./TimesPanel";
 import SelectTimes from "./SelectTimes";
 
-const Trainer = () => {
+const TrainerMobile = () => {
+    const [view, setView] = useState("Timer");
     const [time, setTime] = useState(0);
     const [runTimer, setRunTimer] = useState(false);
     const [scramble, setScramble] = useState("");
@@ -28,31 +29,25 @@ const Trainer = () => {
     let hold = true;
 
     const handleKeyDown = (event) => {
-        if (event.code === "Space") {
-            event.preventDefault();
-            if (inBetween && hold && !runTimer) {
-                //stops timer
-                setRunTimer(false);
-                hold = false;
-            } else if (hold) {
-                setHighlighted(true);
-            }
+        if (inBetween && hold && !runTimer) {
+            //stops timer
+            setRunTimer(false);
+            hold = false;
+        } else if (hold) {
+            setHighlighted(true);
         }
     };
 
     const handleKeyUp = (event) => {
-        if (event.code === "Space") {
-            event.preventDefault();
-            if (runTimer) {
-                setRunTimer(false);
-            } else if (!inBetween) {
-                setRunTimer(true);
-                setHighlighted(false);
-                inBetween = true;
-            } else {
-                inBetween = false;
-                hold = true;
-            }
+        if (runTimer) {
+            setRunTimer(false);
+        } else if (!inBetween) {
+            setRunTimer(true);
+            setHighlighted(false);
+            inBetween = true;
+        } else {
+            inBetween = false;
+            hold = true;
         }
     };
 
@@ -90,13 +85,21 @@ const Trainer = () => {
             setCn(false);
             getScramble(true, false);
         }
-        document.addEventListener("keydown", handleKeyDown);
-        document.addEventListener("keyup", handleKeyUp);
-        return () => {
-            document.removeEventListener("keydown", handleKeyDown);
-            document.removeEventListener("keyup", handleKeyUp);
-        };
     }, []);
+
+    useEffect(() => {
+        const targetDiv = document.getElementById("timer");
+        if (targetDiv) {
+            targetDiv.addEventListener("touchstart", handleKeyDown);
+            targetDiv.addEventListener("touchend", handleKeyUp);
+        }
+        return () => {
+            if (targetDiv) {
+                targetDiv.removeEventListener("touchstart", handleKeyDown);
+                targetDiv.removeEventListener("touchend", handleKeyUp);
+            }
+        };
+    }, [view]);
 
     useEffect(() => {
         if (!runTimer && time !== 0) {
@@ -184,21 +187,31 @@ const Trainer = () => {
     };
 
     return (
-        <div className="lg:block hidden">
+        <div className="lg:hidden">
             <SelectTimes
                 open={showSelectAlgs}
                 onClose={() => setShowSelectAlgs(false)}
                 algs={JSON.parse(localStorage.getItem("algData"))}
             />
-            <div className="flex justify-center font-semibold text-5xl mt-3">
+            <div className="flex justify-center font-semibold text-5xl mt-1">
                 Trainer
             </div>
-            <div className="flex justify-center mt-4">
-                <div className="w-[90vw] h-[70vh] justify-between flex flex-col">
-                    <div className="h-[8%] bg-gray-800 rounded-xl flex items-center justify-center text-3xl relative">
+            <div className="flex justify-center mt-3">
+                <div className="w-[90vw] flex flex-col">
+                    <div
+                        className="text-center text-xl text-blue-400 cursor-pointer mb-2"
+                        onClick={() => setShowSelectAlgs(true)}
+                    >
+                        {localStorage.getItem("selectedAlgs")
+                            ? JSON.parse(localStorage.getItem("selectedAlgs"))
+                                  .length
+                            : 0}{" "}
+                        cases selected
+                    </div>
+                    <div className="h-[60px] bg-gray-800 rounded-xl flex items-center justify-center relative flex-wrap text-center px-10 mb-2">
                         <button className="absolute left-0">
                             <IoMdArrowDropleft
-                                className={`text-5xl ${
+                                className={`text-2xl ${
                                     back + 1 <= savedTimes.length
                                         ? "text-white"
                                         : "text-gray-600"
@@ -209,113 +222,120 @@ const Trainer = () => {
                         {scramble}
                         <button className="absolute right-0">
                             <IoMdArrowDropright
-                                className="text-5xl"
+                                className="text-2xl"
                                 onClick={handleForward}
                             />
                         </button>
                     </div>
-                    <div className="justify-between flex h-[90%]">
-                        <div className="w-[57%] h-full bg-gray-700 rounded-xl overflow-hidden flex items-center justify-center relative">
+                    {view === "Timer" ? (
+                        <div className="justify-between flex h-[50vh] mb-2">
                             <div
-                                className="absolute top-2 text-2xl text-blue-400 cursor-pointer"
-                                onClick={() => setShowSelectAlgs(true)}
+                                className="w-full h-full bg-gray-700 rounded-xl overflow-hidden flex items-center justify-center relative"
+                                id="timer"
                             >
-                                {localStorage.getItem("selectedAlgs")
-                                    ? JSON.parse(
-                                          localStorage.getItem("selectedAlgs")
-                                      ).length
-                                    : 0}{" "}
-                                cases selected
-                            </div>
-                            <div
-                                className={`font-['Menlo'] text-8xl font-bold ${
-                                    highlighted && alg && "text-green-500"
-                                } `}
-                            >
-                                {alg ? (
-                                    <Timer
-                                        runTimer={runTimer}
-                                        time={time}
-                                        setTime={setTime}
-                                    />
-                                ) : (
-                                    "--.--"
-                                )}
+                                <div
+                                    className={`font-['Menlo'] text-6xl font-bold ${
+                                        highlighted && alg && "text-green-500"
+                                    } `}
+                                >
+                                    {alg ? (
+                                        <Timer
+                                            runTimer={runTimer}
+                                            time={time}
+                                            setTime={setTime}
+                                        />
+                                    ) : (
+                                        "--.--"
+                                    )}
+                                </div>
                             </div>
                         </div>
-                        <div className="w-[20%] h-full flex flex-col justify-between">
+                    ) : (
+                        <div className=" grid grid-cols-2 gap-2 mb-2">
                             <CasePanel scramble={scramble} />
-                            {alg ? (
-                                <HintPanel alg={alg.alg} />
-                            ) : (
-                                <HintPanel alg={""} />
-                            )}
-                        </div>
-                        <div className="w-[20%] h-full flex flex-col justify-between">
+                            <HintPanel alg={alg.alg} />
                             <StatsPanel times={savedTimes} />
                             <TimesPanel
                                 times={savedTimes}
                                 setSavedTimes={setSavedTimes}
                             />
                         </div>
+                    )}
+                    <div className="flex justify-between">
+                        <button
+                            className="w-[49%] bg-gray-800 rounded-xl py-1"
+                            onClick={() => setView("Timer")}
+                        >
+                            Timer
+                        </button>
+                        <button
+                            className="w-[49%] bg-gray-800 rounded-xl py-1"
+                            onClick={() => setView("Panels")}
+                        >
+                            Panels
+                        </button>
                     </div>
                 </div>
             </div>
-            <div className="flex justify-center items-center mt-2">
-                <div className="font-bold mr-2 text-2xl">Settings:</div>
-                <div className="border rounded-xl p-1 px-2 mr-2">
-                    <input
-                        type="checkbox"
-                        className="mr-1"
-                        checked={use3D}
-                        onChange={() => handleCheck("3d")}
-                        id="3d"
-                    />
-                    <label className="text-xl">Use 3D Cube</label>
+            <div className="justify-center items-center my-2">
+                <div className="font-bold mr-2 text-xl justify-center flex">
+                    Settings:
                 </div>
-                <div className="border rounded-xl p-1 px-2 mr-2">
-                    <input
-                        type="checkbox"
-                        className="mr-1"
-                        checked={useAUF}
-                        onChange={() => handleCheck("auf")}
-                        id="auf"
-                    />
-                    <label className="text-xl">Use AUF</label>
+                <div className="flex flex-wrap justify-center">
+                    <div className="border rounded-xl p-1 px-2 mr-2">
+                        <input
+                            type="checkbox"
+                            className="mr-1"
+                            checked={use3D}
+                            onChange={() => handleCheck("3d")}
+                            id="3d"
+                        />
+                        <label className="text-sm">Use 3D Cube</label>
+                    </div>
+                    <div className="border rounded-xl p-1 px-2 mr-2">
+                        <input
+                            type="checkbox"
+                            className="mr-1"
+                            checked={useAUF}
+                            onChange={() => handleCheck("auf")}
+                            id="auf"
+                        />
+                        <label className="text-sm">Use AUF</label>
+                    </div>
+                    <div className="border rounded-xl p-1 px-2 mr-2">
+                        <input
+                            type="checkbox"
+                            className="mr-1"
+                            checked={showAlg}
+                            onChange={() => handleCheck("showAlg")}
+                            id="showAlg"
+                        />
+                        <label className="text-sm">Show Alg</label>
+                    </div>
+                    <div className="border rounded-xl p-1 px-2 mr-2">
+                        <input
+                            type="checkbox"
+                            className="mr-1"
+                            checked={cn}
+                            onChange={() => handleCheck("cn")}
+                            id="cn"
+                        />
+                        <label className="text-sm">Color Neutral</label>
+                    </div>
+                    <button
+                        className="text-center text-sm underline text-red-500"
+                        onClick={() => {
+                            localStorage.removeItem("times");
+                            localStorage.removeItem("ao5");
+                            window.location.reload();
+                        }}
+                    >
+                        Delete All Times
+                    </button>
                 </div>
-                <div className="border rounded-xl p-1 px-2 mr-2">
-                    <input
-                        type="checkbox"
-                        className="mr-1"
-                        checked={showAlg}
-                        onChange={() => handleCheck("showAlg")}
-                        id="showAlg"
-                    />
-                    <label className="text-xl">Show Alg</label>
-                </div>
-                <div className="border rounded-xl p-1 px-2 mr-2">
-                    <input
-                        type="checkbox"
-                        className="mr-1"
-                        checked={cn}
-                        onChange={() => handleCheck("cn")}
-                        id="cn"
-                    />
-                    <label className="text-xl">Color Neutral</label>
-                </div>
-                <button
-                    className="text-center text-xl underline text-red-500"
-                    onClick={() => {
-                        localStorage.removeItem("times");
-                        localStorage.removeItem("ao5");
-                        window.location.reload();
-                    }}
-                >
-                    Delete All Times
-                </button>
             </div>
         </div>
     );
 };
 
-export default Trainer;
+export default TrainerMobile;

@@ -11,7 +11,7 @@ const TextArea = ({ text, onChange }) => {
             value={text}
             onChange={onChange}
             type="text"
-            className="w-[700px] h-[400px] rounded-xl p-2 bg-[#283445] resize-none"
+            className="lg:w-[700px] w-[65vw] h-[400px] rounded-xl p-2 bg-[#283445] resize-none lg:text-base text-xs"
             placeholder={`Example:\nT: "R U R' U' R' F R2 U' R' U' R U R' F'"\nY: "F R U' R' U' R U R' F' R U R' U' R' F R F'"`}
         />
     );
@@ -20,11 +20,11 @@ const TextArea = ({ text, onChange }) => {
 const Input = ({ text, onChange, setView, setText }) => {
     return (
         <div className="px-4 py-2 w-full">
-            <div className="mt-1 font-semibold text-xl">
+            <div className="mt-1 font-semibold lg:text-xl text-xl">
                 Enter Algorithms Here:
             </div>
             <div className="mt-1 flex items-center">
-                <div className="mr-2">Add Preset:</div>
+                <div className="mr-2 lg:text-base text-xs">Add Preset:</div>
                 <button className="py-1 px-3 rounded-xl bg-yellow-800 text-yellow-400 text-sm">
                     OLL
                 </button>
@@ -34,12 +34,14 @@ const Input = ({ text, onChange, setView, setText }) => {
                 >
                     PLL
                 </button>
-                <div className="ml-2">(will replace any saved algs)</div>
+                <div className="ml-2 lg:text-base text-xs">
+                    (will replace any saved algs)
+                </div>
             </div>
             <div className="mt-2">
                 <TextArea text={text} onChange={onChange} />
             </div>
-            <div className="mt-1 pb-3">
+            <div className="mt-1 pb-3 lg:text-base text-xs">
                 View the{" "}
                 <span
                     className="font-bold underline cursor-pointer"
@@ -57,7 +59,7 @@ const Format = () => {
     return (
         <div className="px-4 py-2 w-full">
             <div className="text-2xl font-semibold">Format</div>
-            <div className="ml-4">
+            <div className="ml-4 lg:text-base text-xs">
                 <ul className="list-disc">
                     <li>List each algorithm on a different line.</li>
                     <li>Seperate each move by at least one space.</li>
@@ -120,14 +122,14 @@ const AddAlgs = ({ open, onClose }) => {
 
     return (
         <Popup open={open}>
-            <div className="w-[900px] rounded-xl overflow-hidden">
-                <div className="text-3xl p-4 font-semibold">
+            <div className="lg:w-[900px] w-[93vw] rounded-xl overflow-hidden">
+                <div className="lg:text-3xl text-xl p-4 font-semibold">
                     Add/Edit Algorithms
                 </div>
                 <div className="bg-gray-700 h-[450px] flex overflow-y-scroll">
-                    <div className="border-r text-start w-fit border-gray-400 sticky top-0">
+                    <div className="border-r text-start w-fit border-gray-400 sticky top-0 lg:text-base text-xs">
                         <div
-                            className={`px-4 py-3 hover:bg-[#283445] ${
+                            className={`lg:px-4 lg:py-3 px-2 py-1 hover:bg-[#283445] ${
                                 view === "Input" && "bg-[#283445]"
                             } `}
                             onClick={() => setView("Input")}
@@ -135,7 +137,7 @@ const AddAlgs = ({ open, onClose }) => {
                             Add/Edit
                         </div>
                         <div
-                            className={`px-4 py-3 hover:bg-[#283445] ${
+                            className={`lg:px-4 lg:py-3 px-2 py-1 hover:bg-[#283445] ${
                                 view === "Format" && "bg-[#283445]"
                             } `}
                             onClick={() => setView("Format")}
@@ -155,7 +157,7 @@ const AddAlgs = ({ open, onClose }) => {
                     )}
                 </div>
                 <div className="h-fit py-2 bg-gray-700 flex justify-end items-center border-t border-gray-400">
-                    <div className="mr-2 flex items-center">
+                    <div className="mr-2 flex items-center lg:text-base text-sm">
                         {error && (
                             <div className="absolute left-2 text-red-400">
                                 There was an error saving your algorithms,
@@ -163,7 +165,7 @@ const AddAlgs = ({ open, onClose }) => {
                             </div>
                         )}
                         <button
-                            className="px-4 py-2 bg-red-800 text-red-200 rounded-xl mr-1"
+                            className="lg:px-4 lg:py-2 px-2 py-1 bg-red-800 text-red-200 rounded-xl mr-1"
                             onClick={() => {
                                 onClose();
                                 setError(false);
@@ -177,7 +179,7 @@ const AddAlgs = ({ open, onClose }) => {
                             Cancel
                         </button>
                         <button
-                            className="px-4 py-2 bg-green-800 text-green-400 rounded-xl"
+                            className="lg:px-4 lg:py-2 px-2 py-1 bg-green-800 text-green-400 rounded-xl"
                             onClick={handleSave}
                         >
                             Save

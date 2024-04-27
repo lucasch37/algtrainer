@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { IoMdArrowDropleft, IoMdArrowDropright } from "react-icons/io";
 
 const HintPanel = ({ alg }) => {
     const [hints, setHints] = useState(0);
@@ -45,28 +46,44 @@ const HintPanel = ({ alg }) => {
     return (
         <>
             {!showAlg ? (
-                <div className="h-[48.5%] bg-gray-700 rounded-xl overflow-hidden flex flex-col">
+                <div className="lg:h-[48.5%] h-[30vh] bg-gray-700 rounded-xl overflow-hidden flex flex-col relative">
                     <div className="flex justify-center font-semibold text-xl bg-gray-800 p-1 items-center">
                         Hint
                     </div>
                     <div className="text-center flex-grow flex items-center p-6">
                         {hints === 0 ? (
-                            <div className="text-gray-400">
-                                Press or hold right arrow key to view hints!
-                            </div>
+                            <>
+                                <div className="text-gray-400 lg:block hidden">
+                                    Press or hold right arrow key to view hints!
+                                </div>
+                            </>
                         ) : (
-                            <div className="justify-center flex w-full text-xl">
+                            <div className="justify-center flex w-full lg:text-xl">
                                 {alg.split(" ").slice(0, hints).join(" ")}
                             </div>
                         )}
                     </div>
+                    <div className="lg:hidden absolute bottom-2 flex justify-center w-full">
+                        <button
+                            className="text-xl bg-gray-400 p-0.5 rounded"
+                            onClick={() => updateHints(-1)}
+                        >
+                            <IoMdArrowDropleft />
+                        </button>
+                        <button
+                            className="text-xl bg-gray-400 p-0.5 rounded ml-2"
+                            onClick={() => updateHints(1)}
+                        >
+                            <IoMdArrowDropright />
+                        </button>
+                    </div>
                 </div>
             ) : (
-                <div className="h-[48.5%] bg-gray-700 rounded-xl overflow-hidden flex flex-col">
+                <div className="lg:h-[48.5%] h-[30vh] bg-gray-700 rounded-xl overflow-hidden flex flex-col">
                     <div className="flex justify-center font-semibold text-xl bg-gray-800 p-1 items-center">
                         Algorithm
                     </div>
-                    <div className=" text-center flex-grow items-center p-6 justify-center flex w-full text-xl">
+                    <div className=" text-center flex-grow items-center p-6 justify-center flex w-full lg:text-xl">
                         {alg}
                     </div>
                 </div>

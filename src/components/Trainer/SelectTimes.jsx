@@ -49,7 +49,7 @@ const Alg = ({ alg, state, setSelectedAlgs, setCount, open }) => {
 
     return (
         <div
-            className={`p-2 flex flex-col items-center justify-center m-1.5 rounded-xl text-lg cursor-pointer ${
+            className={`p-1 flex flex-col items-center justify-center m-1.5 rounded-xl text-lg cursor-pointer ${
                 selected ? "bg-gray-400" : "bg-gray-600 text-gray-400"
             }`}
             onClick={() => setSelected((prev) => !prev)}
@@ -78,8 +78,8 @@ const SelectTimes = ({ open, onClose, algs }) => {
 
     return (
         <Popup open={open}>
-            <div className="w-[900px] rounded-xl overflow-hidden">
-                <div className="text-3xl p-3 font-semibold">
+            <div className="lg:w-[900px] w-[350px] rounded-xl overflow-hidden">
+                <div className="lg:text-3xl text-xl p-3 font-semibold">
                     Select Algorithms to Train
                 </div>
                 <div className="bg-gray-700 h-[450px] flex overflow-y-scroll">
@@ -130,13 +130,13 @@ const SelectTimes = ({ open, onClose, algs }) => {
                 <div className="h-fit py-2 bg-gray-700 flex justify-end items-center border-t border-gray-400">
                     <div className="mr-2">
                         <button
-                            className="px-4 py-2 bg-red-800 text-red-200 rounded-xl mr-1"
+                            className="lg:px-4 lg:py-2 px-2 py-1 bg-red-800 text-red-200 rounded-xl mr-1"
                             onClick={onClose}
                         >
                             Cancel
                         </button>
                         <button
-                            className="px-4 py-2 bg-green-700 text-green-300 rounded-xl"
+                            className="lg:px-4 lg:py-2 px-2 py-1 bg-green-700 text-green-300 rounded-xl"
                             onClick={handleSave}
                         >
                             Save

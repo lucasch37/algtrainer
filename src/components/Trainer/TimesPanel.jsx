@@ -27,7 +27,7 @@ const TimesPanel = ({ times, setSavedTimes }) => {
     };
 
     return (
-        <div className="h-[48.5%] bg-gray-700 rounded-xl overflow-hidden flex flex-col">
+        <div className="lg:h-[48.5%] h-[30vh] bg-gray-700 rounded-xl overflow-hidden flex flex-col">
             <div className="flex justify-center font-semibold text-xl bg-gray-800 p-1 items-center">
                 Times
             </div>
@@ -57,7 +57,7 @@ const TimesPanel = ({ times, setSavedTimes }) => {
                         {formatTime(selectedTime.time)}
                     </div>
                     <div>Scramble:</div>
-                    <div className="text-center text-xs">
+                    <div className="text-center text-xs px-2">
                         {selectedTime.scramble}
                     </div>
                 </div>
@@ -66,7 +66,7 @@ const TimesPanel = ({ times, setSavedTimes }) => {
                     {times.map((time, index) => (
                         <button
                             key={index}
-                            className="py-1 w-[20%] text-center m-1 rounded-lg bg-gray-400"
+                            className="lg:py-1 w-[20%] text-center lg:text-base text-xs lg:m-1 lg:rounded-lg m-0.5 rounded py-1 bg-gray-400"
                             onClick={() => setSelectedTime(time)}
                         >
                             {formatTime(time.time)}

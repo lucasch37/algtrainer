@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { AiFillQuestionCircle, AiOutlinePlus } from "react-icons/ai";
 import { IoIosSettings } from "react-icons/io";
-import { LuListFilter } from "react-icons/lu";
 import AddAlgs from "./AddAlgs";
 import TableItem from "./TableItem";
 
@@ -18,27 +17,27 @@ const Table = () => {
     }, []);
 
     return (
-        <div className="pb-8">
+        <div className="pb-8 lg:block hidden">
             <div className="text-center font-semibold text-5xl mt-2">
                 Algorithms
             </div>
             <div className="flex justify-center mt-4">
                 <button
-                    className="px-3 py-2 rounded-xl bg-green-800 text-green-400 flex items-center"
+                    className="px-3 py-2 rounded-xl bg-green-800 text-green-400 flex items-center lg:text-base text-xs"
                     onClick={() => {
                         setShowAddMenu(true);
                     }}
                 >
                     Add/Edit Algorithms
-                    <AiOutlinePlus className="text-xl ml-1" />
+                    <AiOutlinePlus className="lg:text-xl ml-1" />
                 </button>
-                <button className="px-3 py-2 rounded-xl bg-gray-600 text-gray-300 flex items-center ml-2">
+                <button className="px-3 py-2 rounded-xl bg-gray-600 text-gray-300 flex items-center ml-2 lg:text-base text-xs">
                     Settings
-                    <IoIosSettings className="text-xl ml-1" />
+                    <IoIosSettings className="lg:text-xl ml-1" />
                 </button>
-                <button className="px-3 py-2 rounded-xl bg-blue-800 text-blue-200 flex items-center ml-2">
+                <button className="px-3 py-2 rounded-xl bg-blue-800 text-blue-200 flex items-center ml-2 lg:text-base text-xs">
                     Help
-                    <AiFillQuestionCircle className="text-xl ml-1" />
+                    <AiFillQuestionCircle className="lg:text-xl ml-1" />
                 </button>
             </div>
             <AddAlgs open={showAddMenu} onClose={() => setShowAddMenu(false)} />
@@ -46,7 +45,7 @@ const Table = () => {
                 <div className=" rounded-xl overflow-hidden">
                     <table className="bg-gray-700 w-[95vw]">
                         <thead>
-                            <tr className="bg-gray-800 rounded-t-xl text-xl">
+                            <tr className="bg-gray-800 rounded-t-xl lg:text-xl">
                                 <th className="w-[10%] p-2">Name</th>
                                 <th className="w-[10%] p-2">Case</th>
                                 <th className="w-[60%] p-2">Algorithm</th>

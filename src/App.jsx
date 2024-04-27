@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import Table from "./components/Table/Table";
 import Trainer from "./components/Trainer/Trainer";
+import TableMobile from "./components/Table/TableMobile";
+import TrainerMobile from "./components/Trainer/TrainerMobile";
 
 const App = () => {
     const [view, setView] = useState("Algs");
@@ -42,7 +44,17 @@ const App = () => {
                     Trainer
                 </div>
             </div>
-            {view === "Algs" ? <Table /> : <Trainer />}
+            {view === "Algs" ? (
+                <>
+                    <Table />
+                    <TableMobile />
+                </>
+            ) : (
+                <>
+                    <TrainerMobile />
+                    <Trainer />
+                </>
+            )}
         </div>
     );
 };

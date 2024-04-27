@@ -70,17 +70,17 @@ const StatsPanel = ({ times }) => {
     }, [times]);
 
     return (
-        <div className="h-[48.5%] bg-gray-700 rounded-xl overflow-hidden flex flex-col ">
+        <div className="lg:h-[48.5%] h-[30vh] bg-gray-700 rounded-xl overflow-hidden flex flex-col ">
             <div className="flex justify-center font-semibold text-xl bg-gray-800 p-1 items-center">
                 Stats
             </div>
             <div className="flex flex-col flex-grow items-center">
-                <table className="text-center border-separate border-spacing-2 w-5/6 h-5/6">
+                <table className="text-center border-separate border-spacing-2 w-5/6 h-5/6 lg:text-base text-sm">
                     <thead>
                         <tr className="h-0">
                             <th className=""></th>
                             <th className="w-2/5">Current</th>
-                            <th className="w-2/5">Best</th>
+                            <th className="w-2/5 px-2">Best</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -143,7 +143,7 @@ const StatsPanel = ({ times }) => {
                         </tr>
                     </tbody>
                 </table>
-                <div className="mt-1 flex items-center">
+                <div className="lg:mt-1 flex items-center">
                     <div className="font-bold">
                         Mean:{" "}
                         {times.length > 0
