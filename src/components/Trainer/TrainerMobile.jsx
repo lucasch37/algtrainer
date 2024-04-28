@@ -7,6 +7,7 @@ import HintPanel from "./HintPanel";
 import StatsPanel from "./StatsPanel";
 import TimesPanel from "./TimesPanel";
 import SelectTimes from "./SelectTimes";
+import TimerMobile from "./TimerMobile";
 
 const TrainerMobile = () => {
     const [view, setView] = useState("Timer");
@@ -241,7 +242,7 @@ const TrainerMobile = () => {
                                     } `}
                                 >
                                     {alg ? (
-                                        <Timer
+                                        <TimerMobile
                                             runTimer={runTimer}
                                             time={time}
                                             setTime={setTime}
@@ -255,7 +256,11 @@ const TrainerMobile = () => {
                     ) : (
                         <div className=" grid grid-cols-2 gap-2 mb-2">
                             <CasePanel scramble={scramble} />
-                            <HintPanel alg={alg.alg} />
+                            {alg ? (
+                                <HintPanel alg={alg.alg} />
+                            ) : (
+                                <HintPanel alg={""} />
+                            )}
                             <StatsPanel times={savedTimes} />
                             <TimesPanel
                                 times={savedTimes}

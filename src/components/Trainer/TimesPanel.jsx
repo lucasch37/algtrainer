@@ -47,7 +47,7 @@ const TimesPanel = ({ times, setSavedTimes }) => {
                     </button>
                     <div className="mt-2">{selectedTime.name}</div>
                     <img
-                        src={`http://cube.rider.biz/visualcube.php?fmt=svg&bg=t&size=200&alg=${
+                        src={`https://cubiclealgdbimagegen.azurewebsites.net/generator?&puzzle=3&size=200&alg=${
                             "y2 " + selectedTime.scramble
                         }`}
                         alt={selectedTime.name}
