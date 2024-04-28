@@ -53,15 +53,17 @@ const TrainerMobile = () => {
 
     const getScramble = (AUF, cn) => {
         const algs = JSON.parse(localStorage.getItem("selectedAlgs"));
-        if (algs.length > 0) {
-            const index = Math.floor(Math.random() * algs.length);
-            setAlg(algs[index]);
-            const generatedScramble = generateScramble(
-                algs[index].alg,
-                AUF,
-                cn
-            );
-            setScramble(generatedScramble);
+        if (algs) {
+            if (algs.length > 0) {
+                const index = Math.floor(Math.random() * algs.length);
+                setAlg(algs[index]);
+                const generatedScramble = generateScramble(
+                    algs[index].alg,
+                    AUF,
+                    cn
+                );
+                setScramble(generatedScramble);
+            }
         }
     };
 

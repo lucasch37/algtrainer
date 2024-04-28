@@ -25,7 +25,7 @@ const About = ({ open, onClose }) => {
                         >
                             My WCA Profile
                             <img
-                                src="WCA_Logo.png?url"
+                                src="/Rubiks-Cube-AlgTrainer/WCA_Logo.png"
                                 alt=""
                                 className="w-8 ml-2"
                             />

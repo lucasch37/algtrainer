@@ -129,16 +129,20 @@ const SelectTimes = ({ open, onClose, algs }) => {
                             </button>
                         </div>
                         <div className="flex flex-wrap justify-center pb-2">
-                            {algs.map((alg, index) => (
-                                <Alg
-                                    alg={alg}
-                                    key={index}
-                                    state={state}
-                                    setSelectedAlgs={setSelectedAlgs}
-                                    setCount={setCount}
-                                    open={open}
-                                />
-                            ))}
+                            {algs ? (
+                                algs.map((alg, index) => (
+                                    <Alg
+                                        alg={alg}
+                                        key={index}
+                                        state={state}
+                                        setSelectedAlgs={setSelectedAlgs}
+                                        setCount={setCount}
+                                        open={open}
+                                    />
+                                ))
+                            ) : (
+                                <div>No algorithms added</div>
+                            )}
                         </div>
                     </div>
                 </div>

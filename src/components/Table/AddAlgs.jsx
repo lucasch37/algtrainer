@@ -7,7 +7,6 @@ import isValid from "../../util/isValid";
 const TextArea = ({ text, onChange }) => {
     return (
         <textarea
-            id="algs"
             value={text}
             onChange={onChange}
             type="text"

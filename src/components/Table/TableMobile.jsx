@@ -69,7 +69,7 @@ const TableMobile = () => {
                     className="px-3 py-2 rounded-xl bg-blue-800 text-blue-200 flex items-center ml-1 lg:text-base text-xs"
                     onClick={() => setShowAbout(true)}
                 >
-                    Help
+                    About
                     <AiFillQuestionCircle className="lg:text-xl ml-1" />
                 </button>
             </div>
