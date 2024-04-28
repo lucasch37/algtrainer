@@ -99,12 +99,12 @@ const SelectTimes = ({ open, onClose, algs }) => {
                 </div>
                 <div className="bg-gray-700 h-[450px] flex overflow-y-scroll">
                     <div className="px-4 py-2 w-full">
-                        <div className="text-center font-bold text-3xl">
+                        <div className="text-center font-bold text-2xl lg:text-3xl">
                             Total: {count}
                         </div>
                         <div className="justify-center flex">
                             <button
-                                className="m-1 bg-green-700 text-green-300 py-2 px-4 rounded-xl"
+                                className="m-1 bg-green-700 text-green-300 py-2 px-4 rounded-xl lg:text-base text-sm"
                                 onClick={() => {
                                     if (state) {
                                         setState("t");
@@ -116,7 +116,7 @@ const SelectTimes = ({ open, onClose, algs }) => {
                                 Select All
                             </button>
                             <button
-                                className="m-1 bg-red-800 text-red-300 py-2 px-4 p-2 rounded-xl"
+                                className="m-1 bg-red-800 text-red-300 py-2 px-4 p-2 rounded-xl lg:text-base text-sm"
                                 onClick={() => {
                                     if (!state) {
                                         setState("f");

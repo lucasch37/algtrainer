@@ -6,6 +6,8 @@ const TableItemMobile = ({ data }) => {
     const [bestTime, setBestTime] = useState("-");
     const [avgTime, setAvgTime] = useState("-");
     const [times, setTimes] = useState([]);
+    const [view, setView] = useState("Planted");
+    const [highlighting, setHighlighting] = useState("All");
 
     useEffect(() => {
         const timeData = JSON.parse(localStorage.getItem("times"));
@@ -15,6 +17,14 @@ const TableItemMobile = ({ data }) => {
                     setTimes((prev) => [...prev, timeData[i]]);
                 }
             }
+        }
+        const view = localStorage.getItem("image");
+        if (view) {
+            setView(view);
+        }
+        const highlighting = localStorage.getItem("highlighting");
+        if (highlighting) {
+            setHighlighting(highlighting);
         }
     }, []);
 
@@ -40,9 +50,11 @@ const TableItemMobile = ({ data }) => {
             </div>
             <div className="flex items-center h-[68%] overflow-hidden">
                 <img
-                    src={`http://cube.rider.biz/visualcube.php?fmt=svg&bg=t&size=200&view=plan&case=${convertAlg(
-                        data.alg
-                    )}`}
+                    src={`http://cube.rider.biz/visualcube.php?fmt=svg&bg=t&size=200&view=${
+                        view === "Planted" && "plan"
+                    }${highlighting === "OLL" ? "&stage=oll" : ""}${
+                        highlighting === "F2L" ? "&stage=f2l" : ""
+                    }&case=${convertAlg(data.alg)}`}
                     alt={data.name}
                     className="w-[35%] borde"
                 />

@@ -196,7 +196,7 @@ const TrainerMobile = () => {
             <div className="flex justify-center font-semibold text-5xl mt-1">
                 Trainer
             </div>
-            <div className="flex justify-center mt-3">
+            <div className="flex justify-center mt-2">
                 <div className="w-[90vw] flex flex-col">
                     <div
                         className="text-center text-xl text-blue-400 cursor-pointer mb-2"
