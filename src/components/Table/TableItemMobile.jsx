@@ -50,13 +50,13 @@ const TableItemMobile = ({ data }) => {
             </div>
             <div className="flex items-center h-[68%] overflow-hidden">
                 <img
-                    src={`http://cube.rider.biz/visualcube.php?fmt=svg&bg=t&size=200&view=${
+                    src={`https://cubiclealgdbimagegen.azurewebsites.net/generator?&puzzle=3&size=200&view=${
                         view === "Planted" && "plan"
                     }${highlighting === "OLL" ? "&stage=oll" : ""}${
                         highlighting === "F2L" ? "&stage=f2l" : ""
                     }&case=${convertAlg(data.alg)}`}
                     alt={data.name}
-                    className="w-[35%] borde"
+                    className="w-[35%]"
                 />
                 <div className="w-[65%] text-center border border-gray-600 h-full flex items-center justify-center">
                     {data.alg}
