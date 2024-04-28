@@ -48,7 +48,7 @@ const TableItem = ({ data }) => {
             <td className="border border-gray-600 text-center">{data.name}</td>
             <td className="border border-gray-600">
                 <img
-                    src={`http://cube.rider.biz/visualcube.php?fmt=svg&bg=t&size=200&view=${
+                    src={`https://cubiclealgdbimagegen.azurewebsites.net/generator?&puzzle=3&size=200&view=${
                         view === "Planted" && "plan"
                     }${highlighting === "OLL" ? "&stage=oll" : ""}${
                         highlighting === "F2L" ? "&stage=f2l" : ""

@@ -58,10 +58,11 @@ const CasePanel = ({ scramble }) => {
                     ) : (
                         <div className="w-full h-[95%] flex justify-center items-center -m-4 ">
                             <img
-                                src={`http://cube.rider.biz/visualcube.php?fmt=svg&bg=t&size=200&alg=${
+                                src={`https://cubiclealgdbimagegen.azurewebsites.net/generator?&puzzle=3&size=200&alg=${
                                     "y2 " + scramble
                                 }`}
                                 alt="case"
+                                className="w-[75%]"
                             />
                         </div>
                     ))}
