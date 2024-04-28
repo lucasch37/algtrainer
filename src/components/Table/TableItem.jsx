@@ -6,6 +6,8 @@ const TableItem = ({ data }) => {
     const [bestTime, setBestTime] = useState("-");
     const [avgTime, setAvgTime] = useState("-");
     const [times, setTimes] = useState([]);
+    const [view, setView] = useState("Planted");
+    const [highlighting, setHighlighting] = useState("All");
 
     useEffect(() => {
         const timeData = JSON.parse(localStorage.getItem("times"));
@@ -15,6 +17,14 @@ const TableItem = ({ data }) => {
                     setTimes((prev) => [...prev, timeData[i]]);
                 }
             }
+        }
+        const view = localStorage.getItem("image");
+        if (view) {
+            setView(view);
+        }
+        const highlighting = localStorage.getItem("highlighting");
+        if (highlighting) {
+            setHighlighting(highlighting);
         }
     }, []);
 
@@ -38,9 +48,11 @@ const TableItem = ({ data }) => {
             <td className="border border-gray-600 text-center">{data.name}</td>
             <td className="border border-gray-600">
                 <img
-                    src={`http://cube.rider.biz/visualcube.php?fmt=svg&bg=t&size=200&view=plan&case=${convertAlg(
-                        data.alg
-                    )}`}
+                    src={`http://cube.rider.biz/visualcube.php?fmt=svg&bg=t&size=200&view=${
+                        view === "Planted" && "plan"
+                    }${highlighting === "OLL" ? "&stage=oll" : ""}${
+                        highlighting === "F2L" ? "&stage=f2l" : ""
+                    }&case=${convertAlg(data.alg)}`}
                     alt={data.name}
                 />
             </td>

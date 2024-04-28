@@ -4,6 +4,8 @@ import convertAlg from "../../util/convertAlg";
 
 const Alg = ({ alg, state, setSelectedAlgs, setCount, open }) => {
     const [selected, setSelected] = useState(true);
+    const [view, setView] = useState("Planted");
+    const [highlighting, setHighlighting] = useState("All");
 
     useEffect(() => {
         const parsedSelAlgs = JSON.parse(localStorage.getItem("selectedAlgs"));
@@ -47,6 +49,17 @@ const Alg = ({ alg, state, setSelectedAlgs, setCount, open }) => {
         }
     }, [selected]);
 
+    useEffect(() => {
+        const view = localStorage.getItem("image");
+        if (view) {
+            setView(view);
+        }
+        const highlighting = localStorage.getItem("highlighting");
+        if (highlighting) {
+            setHighlighting(highlighting);
+        }
+    }, []);
+
     return (
         <div
             className={`p-1 flex flex-col items-center justify-center m-1.5 rounded-xl text-lg cursor-pointer ${
@@ -56,9 +69,11 @@ const Alg = ({ alg, state, setSelectedAlgs, setCount, open }) => {
         >
             {alg.name}
             <img
-                src={`http://cube.rider.biz/visualcube.php?fmt=svg&bg=t&size=200&view=plan&case=${convertAlg(
-                    alg.alg
-                )}`}
+                src={`http://cube.rider.biz/visualcube.php?fmt=svg&bg=t&size=200&view=${
+                    view === "Planted" && "plan"
+                }${highlighting === "OLL" ? "&stage=oll" : ""}${
+                    highlighting === "F2L" ? "&stage=f2l" : ""
+                }&case=${convertAlg(alg.alg)}`}
                 alt={alg.name}
                 className="w-20"
             />
@@ -130,13 +145,13 @@ const SelectTimes = ({ open, onClose, algs }) => {
                 <div className="h-fit py-2 bg-gray-700 flex justify-end items-center border-t border-gray-400">
                     <div className="mr-2">
                         <button
-                            className="lg:px-4 lg:py-2 px-2 py-1 bg-red-800 text-red-200 rounded-xl mr-1"
+                            className="lg:px-4 lg:py-2 px-2 py-1 bg-red-800 text-red-200 rounded-lg lg:rounded-xl mr-1"
                             onClick={onClose}
                         >
                             Cancel
                         </button>
                         <button
-                            className="lg:px-4 lg:py-2 px-2 py-1 bg-green-700 text-green-300 rounded-xl"
+                            className="lg:px-4 lg:py-2 px-2 py-1 bg-green-700 text-green-300 rounded-lg lg:rounded-xl"
                             onClick={handleSave}
                         >
                             Save

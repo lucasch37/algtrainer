@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Popup from "../Popup";
 import saveAlgs from "../../util/saveAlgs";
-import PLL from "./Presets";
+import { PLL, OLL } from "./Presets";
 import isValid from "../../util/isValid";
 
 const TextArea = ({ text, onChange }) => {
@@ -25,11 +25,14 @@ const Input = ({ text, onChange, setView, setText }) => {
             </div>
             <div className="mt-1 flex items-center">
                 <div className="mr-2 lg:text-base text-xs">Add Preset:</div>
-                <button className="py-1 px-3 rounded-xl bg-yellow-800 text-yellow-400 text-sm">
+                <button
+                    className="py-1 px-3 rounded-xl bg-yellow-800 text-yellow-400 lg:text-sm text-xs"
+                    onClick={() => setText(OLL)}
+                >
                     OLL
                 </button>
                 <button
-                    className="py-1 px-3 rounded-xl bg-yellow-800 text-yellow-400 text-sm ml-1"
+                    className="py-1 px-3 rounded-xl bg-yellow-800 text-yellow-400 lg:text-sm text-xs ml-1"
                     onClick={() => setText(PLL)}
                 >
                     PLL
@@ -75,6 +78,7 @@ const Format = () => {
                     </div>
                 </div>
                 <ul className="list-disc">
+                    <li>Give each algorithm a unique name</li>
                     <li>
                         Use only the following moves (', 2, or 3 can be added to
                         the end, but nothing 4 or above):
@@ -106,6 +110,7 @@ const AddAlgs = ({ open, onClose }) => {
 
     const handleSave = () => {
         if (isValid(text)) {
+            onClose();
             saveAlgs(text);
             window.location.reload();
         } else {
@@ -165,7 +170,7 @@ const AddAlgs = ({ open, onClose }) => {
                             </div>
                         )}
                         <button
-                            className="lg:px-4 lg:py-2 px-2 py-1 bg-red-800 text-red-200 rounded-xl mr-1"
+                            className="lg:px-4 lg:py-2 px-2 py-1 bg-red-800 text-red-200 rounded-lg lg:rounded-xl mr-1"
                             onClick={() => {
                                 onClose();
                                 setError(false);
@@ -179,7 +184,7 @@ const AddAlgs = ({ open, onClose }) => {
                             Cancel
                         </button>
                         <button
-                            className="lg:px-4 lg:py-2 px-2 py-1 bg-green-800 text-green-400 rounded-xl"
+                            className="lg:px-4 lg:py-2 px-2 py-1 bg-green-800 text-green-400 rounded-lg lg:rounded-xl"
                             onClick={handleSave}
                         >
                             Save
