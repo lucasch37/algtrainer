@@ -56,7 +56,7 @@ const CasePanel = ({ scramble }) => {
                             </div>
                         </>
                     ) : (
-                        <div className="w-full h-[95%] flex justify-center items-center -m-4 ">
+                        <div className="lg:w-full w-48 flex justify-center items-center">
                             <img
                                 src={`https://cubiclealgdbimagegen.azurewebsites.net/generator?&puzzle=3&size=200&alg=${
                                     "y2 " + scramble

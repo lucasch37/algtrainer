@@ -23,7 +23,7 @@ const Input = ({ text, onChange, setView, setText }) => {
                 Enter Algorithms Here:
             </div>
             <div className="mt-1 flex items-center">
-                <div className="mr-2 lg:text-base text-xs">Add Preset:</div>
+                <div className="mr-1 lg:text-base text-xs">Add Preset:</div>
                 <button
                     className="py-1 px-3 rounded-xl bg-yellow-800 text-yellow-400 lg:text-sm text-xs"
                     onClick={() => setText(OLL)}
@@ -36,22 +36,27 @@ const Input = ({ text, onChange, setView, setText }) => {
                 >
                     PLL
                 </button>
-                <div className="ml-2 lg:text-base text-xs">
-                    (will replace any saved algs)
-                </div>
             </div>
             <div className="mt-2">
                 <TextArea text={text} onChange={onChange} />
             </div>
-            <div className="mt-1 pb-3 lg:text-base text-xs">
-                View the{" "}
-                <span
-                    className="font-bold underline cursor-pointer"
-                    onClick={() => setView("Format")}
+            <div className="flex pb-3 items-center">
+                <button
+                    className="py-1 px-3 mr-1 rounded-xl bg-red-800 text-red-200 lg:text-sm text-xs"
+                    onClick={() => setText("")}
                 >
-                    Format
-                </span>{" "}
-                tab for info about formatting
+                    Reset
+                </button>
+                <div className=" lg:text-base text-xs">
+                    View the{" "}
+                    <span
+                        className="font-bold underline cursor-pointer"
+                        onClick={() => setView("Format")}
+                    >
+                        Format
+                    </span>{" "}
+                    tab for info about formatting
+                </div>
             </div>
         </div>
     );
@@ -77,7 +82,11 @@ const Format = () => {
                     </div>
                 </div>
                 <ul className="list-disc">
-                    <li>Give each algorithm a unique name</li>
+                    <li>
+                        Give each algorithm a unique name (times are saved for
+                        each name, so if you want unique times for every
+                        algorithm use unique names)
+                    </li>
                     <li>
                         Use only the following moves (', 2, or 3 can be added to
                         the end, but nothing 4 or above):
@@ -91,7 +100,6 @@ const Format = () => {
                         Almost any algorithm ranging from F2L, last layer,
                         blindfolded, FMC and more are usuable!
                     </li>
-                    <li>There is no limit to the number of algorithms.</li>
                 </ul>
             </div>
         </div>
@@ -133,7 +141,7 @@ const AddAlgs = ({ open, onClose }) => {
                 <div className="bg-gray-700 h-[450px] flex overflow-y-scroll">
                     <div className="border-r text-start w-fit border-gray-400 sticky top-0 lg:text-base text-xs">
                         <div
-                            className={`lg:px-4 lg:py-3 px-2 py-1 hover:bg-[#283445] ${
+                            className={`lg:px-4 lg:py-3 px-2 py-1 hover:bg-[#283445] cursor-pointer ${
                                 view === "Input" && "bg-[#283445]"
                             } `}
                             onClick={() => setView("Input")}
@@ -141,7 +149,7 @@ const AddAlgs = ({ open, onClose }) => {
                             Add/Edit
                         </div>
                         <div
-                            className={`lg:px-4 lg:py-3 px-2 py-1 hover:bg-[#283445] ${
+                            className={`lg:px-4 lg:py-3 px-2 py-1 hover:bg-[#283445] cursor-pointer ${
                                 view === "Format" && "bg-[#283445]"
                             } `}
                             onClick={() => setView("Format")}
@@ -177,6 +185,8 @@ const AddAlgs = ({ open, onClose }) => {
                                     localStorage.getItem("algText");
                                 if (savedText) {
                                     setText(savedText);
+                                } else {
+                                    setText("");
                                 }
                             }}
                         >

@@ -33,7 +33,9 @@ const About = ({ open, onClose }) => {
                         <div className="">Special Thanks to:</div>
                         <ul className="list-disc ml-4">
                             <li>
-                                <span className="font-bold">Lucas Garron</span>{" "}
+                                <span className="font-bold">
+                                    Lucas Garron and the creators of CubingJS
+                                </span>{" "}
                                 for{" "}
                                 <a
                                     href="https://js.cubing.net/cubing/twisty/"
@@ -43,6 +45,7 @@ const About = ({ open, onClose }) => {
                                 >
                                     Twisty Player
                                 </a>
+                                , used to display scrambles in an amazing way
                             </li>
                             <li>
                                 <span className="font-bold">Conrad Rider</span>{" "}
@@ -55,6 +58,7 @@ const About = ({ open, onClose }) => {
                                 >
                                     VisualCube
                                 </a>
+                                , used to generate images for every algorithm
                             </li>
                             <li>
                                 <span className="font-bold">Chen Shuang</span>{" "}
@@ -67,6 +71,8 @@ const About = ({ open, onClose }) => {
                                 >
                                     min2phase
                                 </a>
+                                , used to generate scrambles in less than half a
+                                second
                             </li>
                         </ul>
                     </div>

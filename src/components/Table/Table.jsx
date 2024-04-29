@@ -98,7 +98,7 @@ const Table = () => {
                                 <tr>
                                     <td></td>
                                     <td></td>
-                                    <td className="text-center text-lg p-5 text-gray-400">
+                                    <td className="text-center text-lg p-5 text-gray-400 italic">
                                         No Algorithms Added
                                     </td>
                                     <td></td>

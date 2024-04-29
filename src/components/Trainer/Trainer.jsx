@@ -175,7 +175,6 @@ const Trainer = () => {
 
     const handleForward = () => {
         if (back > 0) {
-            console.log(back);
             setBack((prev) => {
                 setScramble(savedTimes[savedTimes.length - prev].scramble);
                 return prev - 1;

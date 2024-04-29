@@ -62,7 +62,7 @@ const Alg = ({ alg, state, setSelectedAlgs, setCount, open }) => {
 
     return (
         <div
-            className={`p-1 flex flex-col items-center justify-center m-1.5 rounded-xl text-lg cursor-pointer ${
+            className={`p-1 flex flex-col items-center justify-center m-1.5 rounded-lg text-lg cursor-pointer ${
                 selected ? "bg-gray-400" : "bg-gray-600 text-gray-400"
             }`}
             onClick={() => setSelected((prev) => !prev)}
@@ -106,7 +106,7 @@ const SelectTimes = ({ open, onClose, algs }) => {
                             <button
                                 className="m-1 bg-green-700 text-green-300 py-2 px-4 rounded-xl lg:text-base text-sm"
                                 onClick={() => {
-                                    if (state) {
+                                    if (state && state !== "t") {
                                         setState("t");
                                     } else {
                                         setState(true);
@@ -141,7 +141,7 @@ const SelectTimes = ({ open, onClose, algs }) => {
                                     />
                                 ))
                             ) : (
-                                <div>No algorithms added</div>
+                                <div></div>
                             )}
                         </div>
                     </div>

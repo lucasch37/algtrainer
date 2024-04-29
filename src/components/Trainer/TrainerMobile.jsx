@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { IoMdArrowDropleft, IoMdArrowDropright } from "react-icons/io";
-import Timer from "./Timer";
 import generateScramble from "../../util/generateScramble";
 import CasePanel from "./CasePanel";
 import HintPanel from "./HintPanel";
@@ -14,7 +13,7 @@ const TrainerMobile = () => {
     const [time, setTime] = useState(0);
     const [runTimer, setRunTimer] = useState(false);
     const [scramble, setScramble] = useState("");
-    const [highlighted, setHighlighted] = useState(false);
+    const [highlighted, setHighlighted] = useState("");
     const [savedTimes, setSavedTimes] = useState([]);
     const [alg, setAlg] = useState();
     const [showSelectAlgs, setShowSelectAlgs] = useState(false);
@@ -28,6 +27,8 @@ const TrainerMobile = () => {
 
     let inBetween = false;
     let hold = true;
+    let holdTimeout;
+    let hold1Second = false;
 
     const handleKeyDown = (event) => {
         if (inBetween && hold && !runTimer) {
@@ -35,7 +36,11 @@ const TrainerMobile = () => {
             setRunTimer(false);
             hold = false;
         } else if (hold) {
-            setHighlighted(true);
+            setHighlighted("red");
+            holdTimeout = setTimeout(() => {
+                setHighlighted("green");
+                hold1Second = true;
+            }, 300);
         }
     };
 
@@ -43,9 +48,13 @@ const TrainerMobile = () => {
         if (runTimer) {
             setRunTimer(false);
         } else if (!inBetween) {
-            setRunTimer(true);
-            setHighlighted(false);
-            inBetween = true;
+            setHighlighted("");
+            clearTimeout(holdTimeout);
+            if (hold1Second) {
+                hold1Second = false;
+                setRunTimer(true);
+                inBetween = true;
+            }
         } else {
             inBetween = false;
             hold = true;
@@ -66,6 +75,10 @@ const TrainerMobile = () => {
                 setScramble(generatedScramble);
             }
         }
+    };
+
+    const handleContextMenu = (event) => {
+        event.preventDefault();
     };
 
     useEffect(() => {
@@ -95,11 +108,13 @@ const TrainerMobile = () => {
         if (targetDiv) {
             targetDiv.addEventListener("touchstart", handleKeyDown);
             targetDiv.addEventListener("touchend", handleKeyUp);
+            targetDiv.addEventListener("contextmenu", handleContextMenu);
         }
         return () => {
             if (targetDiv) {
                 targetDiv.removeEventListener("touchstart", handleKeyDown);
                 targetDiv.removeEventListener("touchend", handleKeyUp);
+                targetDiv.removeEventListener("contextmenu", handleContextMenu);
             }
         };
     }, [view]);
@@ -179,7 +194,6 @@ const TrainerMobile = () => {
 
     const handleForward = () => {
         if (back > 0) {
-            console.log(back);
             setBack((prev) => {
                 setScramble(savedTimes[savedTimes.length - prev].scramble);
                 return prev - 1;
@@ -201,15 +215,15 @@ const TrainerMobile = () => {
             </div>
             <div className="flex justify-center mt-2">
                 <div className="w-[90vw] flex flex-col">
-                    <div
-                        className="text-center text-xl text-blue-400 cursor-pointer mb-2"
-                        onClick={() => setShowSelectAlgs(true)}
-                    >
-                        {localStorage.getItem("selectedAlgs")
-                            ? JSON.parse(localStorage.getItem("selectedAlgs"))
-                                  .length
-                            : 0}{" "}
-                        cases selected
+                    <div className="flex justify-center text-xl text-blue-400 cursor-pointer mb-2">
+                        <div onClick={() => setShowSelectAlgs(true)}>
+                            {localStorage.getItem("selectedAlgs")
+                                ? JSON.parse(
+                                      localStorage.getItem("selectedAlgs")
+                                  ).length
+                                : 0}{" "}
+                            cases selected
+                        </div>
                     </div>
                     <div className="h-[60px] bg-gray-800 rounded-xl flex items-center justify-center relative flex-wrap text-center px-10 mb-2">
                         <button className="absolute left-0">
@@ -233,12 +247,18 @@ const TrainerMobile = () => {
                     {view === "Timer" ? (
                         <div className="justify-between flex h-[50vh] mb-2">
                             <div
-                                className="w-full h-full bg-gray-700 rounded-xl overflow-hidden flex items-center justify-center relative"
+                                className="w-full h-full bg-gray-700 rounded-xl overflow-hidden flex items-center justify-center relative select-none"
                                 id="timer"
                             >
                                 <div
                                     className={`font-['Menlo'] text-6xl font-bold ${
-                                        highlighted && alg && "text-green-500"
+                                        highlighted === "green" &&
+                                        alg &&
+                                        "text-green-500"
+                                    } ${
+                                        highlighted === "red" &&
+                                        alg &&
+                                        "text-red-400"
                                     } `}
                                 >
                                     {alg ? (

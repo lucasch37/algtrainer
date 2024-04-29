@@ -81,9 +81,15 @@ const TableMobile = () => {
             <About open={showAbout} onClose={() => setShowAbout(false)} />
             <div className="flex justify-center">
                 <div className="flex flex-col justify-center mt-3 w-[90vw]">
-                    {data.map((data, index) => (
-                        <TableItemMobile data={data} key={index} />
-                    ))}
+                    {data.length > 0 ? (
+                        data.map((data, index) => (
+                            <TableItemMobile data={data} key={index} />
+                        ))
+                    ) : (
+                        <div className="text-center text-gray-400 italic">
+                            No Algorithms Added
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
