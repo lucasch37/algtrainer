@@ -56,9 +56,9 @@ const TableItemMobile = ({ data }) => {
                         highlighting === "F2L" ? "&stage=f2l" : ""
                     }&case=${convertAlg(data.alg)}`}
                     alt={data.name}
-                    className="w-[35%] max-w-40"
+                    className="w-[35%] md:max-w-40"
                 />
-                <div className="w-full text-center border border-gray-600 h-full flex items-center justify-center">
+                <div className="w-[65%] md:w-full text-center border border-gray-600 h-full flex items-center justify-center">
                     {data.alg}
                 </div>
             </div>
