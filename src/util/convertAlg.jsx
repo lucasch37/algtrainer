@@ -21,6 +21,7 @@ const convertAlg = (alg) => {
                 moves[j] = changeMove(moves[j], moves[i]);
             }
             moves[i] = "";
+            console.log(moves);
         } else {
             switch (moves[i]) {
                 case "M":
@@ -171,19 +172,19 @@ const convertAlg = (alg) => {
                     for (let j = i; j < moves.length; j++) {
                         moves[j] = changeMove(moves[j], "z'");
                     }
-                    moves[i] = "B'";
+                    moves[i] = "F";
                     break;
                 case "b'":
                     for (let j = i; j < moves.length; j++) {
                         moves[j] = changeMove(moves[j], "z");
                     }
-                    moves[i] = "B";
+                    moves[i] = "F'";
                     break;
                 case "b2":
                     for (let j = i; j < moves.length; j++) {
                         moves[j] = changeMove(moves[j], "z2");
                     }
-                    moves[i] = "B2";
+                    moves[i] = "F2";
                     break;
             }
         }
@@ -216,7 +217,6 @@ const changeMove = (alg, axis) => {
         ) {
             alg = alg.toUpperCase();
             lowercase = true;
-            console.log("yes");
         }
     } else if (axis[0] === "z") {
         if (
