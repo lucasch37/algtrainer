@@ -24,6 +24,7 @@ const TrainerMobile = () => {
     const [useAUF, setUseAUF] = useState(true);
     const [showAlg, setShowAlg] = useState(false);
     const [cn, setCn] = useState(false);
+    const [hideCase, setHideCase] = useState(false);
 
     let inBetween = false;
     let hold = true;
@@ -90,6 +91,7 @@ const TrainerMobile = () => {
             setUseAUF(JSON.parse(localStorage.getItem("settings"))[1]);
             setShowAlg(JSON.parse(localStorage.getItem("settings"))[2]);
             setCn(JSON.parse(localStorage.getItem("settings"))[3]);
+            setHideCase(JSON.parse(localStorage.getItem("settings"))[4]);
             getScramble(
                 JSON.parse(localStorage.getItem("settings"))[1],
                 JSON.parse(localStorage.getItem("settings"))[3]
@@ -99,6 +101,7 @@ const TrainerMobile = () => {
             setUseAUF(true);
             setShowAlg(false);
             setCn(false);
+            setHideCase(false);
             getScramble(true, false);
         }
     }, []);
@@ -162,6 +165,12 @@ const TrainerMobile = () => {
                 saveSettings(name, newValue);
                 return newValue;
             });
+        } else if (name === "hideCase") {
+            setHideCase((prevHideCase) => {
+                const newValue = !prevHideCase;
+                saveSettings(name, newValue);
+                return newValue;
+            });
         }
     };
 
@@ -171,6 +180,7 @@ const TrainerMobile = () => {
             useAUF,
             showAlg,
             cn,
+            hideCase,
         ];
         if (name === "3d") {
             settings[0] = value;
@@ -180,6 +190,8 @@ const TrainerMobile = () => {
             settings[2] = value;
         } else if (name === "cn") {
             settings[3] = value;
+        } else if (name === "hideCase") {
+            settings[4] = value;
         }
         localStorage.setItem("settings", JSON.stringify(settings));
     };
@@ -222,7 +234,13 @@ const TrainerMobile = () => {
                                       localStorage.getItem("selectedAlgs")
                                   ).length
                                 : 0}{" "}
-                            cases selected
+                            {localStorage.getItem("selectedAlgs")
+                                ? JSON.parse(
+                                      localStorage.getItem("selectedAlgs")
+                                  ).length > 1
+                                    ? "cases selected"
+                                    : "case selected"
+                                : "cases selected"}
                         </div>
                     </div>
                     <div className="h-[60px] bg-gray-800 rounded-xl flex items-center justify-center relative flex-wrap text-center px-10 mb-2">
@@ -305,11 +323,11 @@ const TrainerMobile = () => {
                 </div>
             </div>
             <div className="justify-center items-center my-2">
-                <div className="font-bold mr-2 text-xl justify-center flex">
+                <div className="font-bold mr-1 mb-1 text-xl justify-center flex">
                     Settings:
                 </div>
                 <div className="flex flex-wrap justify-center">
-                    <div className="border rounded-xl p-1 px-2 mr-2">
+                    <div className="border rounded-xl p-1 px-2 mr-1 mb-1 ">
                         <input
                             type="checkbox"
                             className="mr-1"
@@ -319,7 +337,7 @@ const TrainerMobile = () => {
                         />
                         <label className="text-sm">Use 3D Cube</label>
                     </div>
-                    <div className="border rounded-xl p-1 px-2 mr-2">
+                    <div className="border rounded-xl p-1 px-2 mr-1 mb-1">
                         <input
                             type="checkbox"
                             className="mr-1"
@@ -329,7 +347,7 @@ const TrainerMobile = () => {
                         />
                         <label className="text-sm">Use AUF</label>
                     </div>
-                    <div className="border rounded-xl p-1 px-2 mr-2">
+                    <div className="border rounded-xl p-1 px-2 mr-1 mb-1">
                         <input
                             type="checkbox"
                             className="mr-1"
@@ -339,7 +357,7 @@ const TrainerMobile = () => {
                         />
                         <label className="text-sm">Show Alg</label>
                     </div>
-                    <div className="border rounded-xl p-1 px-2 mr-2">
+                    <div className="border rounded-xl p-1 px-2 mr-1 mb-1">
                         <input
                             type="checkbox"
                             className="mr-1"
@@ -348,6 +366,16 @@ const TrainerMobile = () => {
                             id="cn"
                         />
                         <label className="text-sm">Color Neutral</label>
+                    </div>
+                    <div className="border rounded-xl p-1 px-2 mr-1 mb-1">
+                        <input
+                            type="checkbox"
+                            className="mr-1"
+                            checked={hideCase}
+                            onChange={() => handleCheck("hideCase")}
+                            id="hideCase"
+                        />
+                        <label className="text-sm">Hide Case</label>
                     </div>
                     <button
                         className="text-center text-sm underline text-red-500"

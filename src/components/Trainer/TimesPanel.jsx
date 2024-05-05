@@ -34,46 +34,57 @@ const TimesPanel = ({ times, setSavedTimes }) => {
             {selectedTime ? (
                 <div className="flex flex-col flex-grow items-center relative overflow-y-scroll">
                     <button
-                        className="absolute top-2 left-2 bg-gray-400 p-2 rounded"
+                        className="absolute top-2 left-2 bg-gray-400 p-1 rounded-lg lg:p-2"
                         onClick={() => setSelectedTime()}
                     >
                         <IoArrowBackOutline />
                     </button>
                     <button
-                        className="absolute top-2 right-2 bg-red-500 p-2 rounded"
+                        className="absolute top-2 right-2 bg-red-500 p-1 rounded-lg lg:p-2"
                         onClick={() => deleteTime(selectedTime)}
                     >
                         <AiOutlineClose />
                     </button>
-                    <div className="mt-2">{selectedTime.name}</div>
+                    <div className="mt-2 lg:text-xl font-semibold">
+                        {selectedTime.name}
+                    </div>
                     <img
                         src={`https://cubiclealgdbimagegen.azurewebsites.net/generator?&puzzle=3&size=200&alg=${
                             "y2 " + selectedTime.scramble
                         }`}
                         alt={selectedTime.name}
-                        className="w-[40%]"
+                        className="w-[30%] -mt-1"
                     />
-                    <div className="font-bold text-xl">
+                    <div className="lg:text-xl">
                         {formatTime(selectedTime.time)}
                     </div>
-                    <div>Scramble:</div>
+                    <div className="underline">Scramble:</div>
                     <div className="text-center text-xs px-2">
                         {selectedTime.scramble}
                     </div>
+                    <div className="underline">Algorithm:</div>
+                    <div className="text-center text-xs px-2">
+                        {selectedTime.alg}
+                    </div>
                 </div>
             ) : times.length > 0 ? (
-                <div className="flex flex-wrap justify-center m-2 overflow-y-scroll">
-                    {times.map((time, index) => (
-                        <button
-                            key={index}
-                            className="lg:py-1 w-[20%] text-center lg:text-base text-xs lg:m-1 lg:rounded-lg m-0.5 rounded py-1 bg-gray-400"
-                            onClick={() => setSelectedTime(time)}
-                        >
-                            {formatTime(time.time)}
-                        </button>
-                    ))}
-                    <div ref={bottomRef} />
-                </div>
+                <>
+                    <div className="flex justify-center font-bold my-1 lg:text-base text-sm">
+                        Time Count: {times.length}
+                    </div>
+                    <div className="flex flex-wrap justify-center m-2 mt-0  overflow-y-scroll">
+                        {times.map((time, index) => (
+                            <button
+                                key={index}
+                                className="lg:py-1 w-[20%] text-center lg:text-base text-xs lg:m-1 lg:rounded-lg m-0.5 rounded py-1 bg-gray-400"
+                                onClick={() => setSelectedTime(time)}
+                            >
+                                {formatTime(time.time)}
+                            </button>
+                        ))}
+                        <div ref={bottomRef} />
+                    </div>
+                </>
             ) : (
                 <div className="flex flex-grow justify-center items-center">
                     <div className="text-gray-400 items-center flex h-full">

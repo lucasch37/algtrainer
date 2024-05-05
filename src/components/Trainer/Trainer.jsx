@@ -23,6 +23,7 @@ const Trainer = () => {
     const [useAUF, setUseAUF] = useState(true);
     const [showAlg, setShowAlg] = useState(false);
     const [cn, setCn] = useState(false);
+    const [hideCase, setHideCase] = useState(false);
 
     let inBetween = false;
     let hold = true;
@@ -81,6 +82,7 @@ const Trainer = () => {
             setUseAUF(JSON.parse(localStorage.getItem("settings"))[1]);
             setShowAlg(JSON.parse(localStorage.getItem("settings"))[2]);
             setCn(JSON.parse(localStorage.getItem("settings"))[3]);
+            setHideCase(JSON.parse(localStorage.getItem("settings"))[4]);
             getScramble(
                 JSON.parse(localStorage.getItem("settings"))[1],
                 JSON.parse(localStorage.getItem("settings"))[3]
@@ -90,6 +92,7 @@ const Trainer = () => {
             setUseAUF(true);
             setShowAlg(false);
             setCn(false);
+            setHideCase(false);
             getScramble(true, false);
         }
         document.addEventListener("keydown", handleKeyDown);
@@ -143,6 +146,12 @@ const Trainer = () => {
                 saveSettings(name, newValue);
                 return newValue;
             });
+        } else if (name === "hideCase") {
+            setHideCase((prevHideCase) => {
+                const newValue = !prevHideCase;
+                saveSettings(name, newValue);
+                return newValue;
+            });
         }
     };
 
@@ -152,6 +161,7 @@ const Trainer = () => {
             useAUF,
             showAlg,
             cn,
+            hideCase,
         ];
         if (name === "3d") {
             settings[0] = value;
@@ -161,6 +171,8 @@ const Trainer = () => {
             settings[2] = value;
         } else if (name === "cn") {
             settings[3] = value;
+        } else if (name === "hideCase") {
+            settings[4] = value;
         }
         localStorage.setItem("settings", JSON.stringify(settings));
     };
@@ -218,7 +230,7 @@ const Trainer = () => {
                     <div className="justify-between flex h-[90%]">
                         <div className="w-[57%] h-full bg-gray-700 rounded-xl overflow-hidden flex items-center justify-center relative">
                             <div
-                                className="absolute top-2 text-2xl text-blue-400 cursor-pointer"
+                                className="absolute top-2 text-2xl text-blue-400 cursor-pointer hover:text-blue-600"
                                 onClick={() => setShowSelectAlgs(true)}
                             >
                                 {localStorage.getItem("selectedAlgs")
@@ -226,7 +238,13 @@ const Trainer = () => {
                                           localStorage.getItem("selectedAlgs")
                                       ).length
                                     : 0}{" "}
-                                cases selected
+                                {localStorage.getItem("selectedAlgs")
+                                    ? JSON.parse(
+                                          localStorage.getItem("selectedAlgs")
+                                      ).length > 1
+                                        ? "cases selected"
+                                        : "case selected"
+                                    : "cases selected"}
                             </div>
                             <div
                                 className={`font-['Menlo'] text-8xl font-bold ${
@@ -303,6 +321,16 @@ const Trainer = () => {
                         id="cn"
                     />
                     <label className="text-xl">Color Neutral</label>
+                </div>
+                <div className="border rounded-xl p-1 px-2 mr-2">
+                    <input
+                        type="checkbox"
+                        className="mr-1"
+                        checked={hideCase}
+                        onChange={() => handleCheck("hideCase")}
+                        id="hideCase"
+                    />
+                    <label className="text-xl">Hide Case</label>
                 </div>
                 <button
                     className="text-center text-xl underline text-red-500"

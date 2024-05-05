@@ -10,7 +10,7 @@ const convertAlg = (alg) => {
                 moves[i] = char1 + "'";
             }
         } else if (moves[i].length === 3) {
-            if (moves[i][1] === 2) {
+            if (moves[i][1] === "2") {
                 moves[i] = moves[i][0] + moves[i][1];
             } else {
                 moves[i] = moves[i][0];
