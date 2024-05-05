@@ -200,14 +200,45 @@ const changeMove = (alg, axis) => {
         char2 = alg[1];
     }
     let index;
+    let lowercase = false;
+    if (axis[0] === "x") {
+        if (
+            x.indexOf(alg[0].toUpperCase()) !== -1 &&
+            alg[0] === alg[0].toLowerCase()
+        ) {
+            alg = alg.toUpperCase();
+            lowercase = true;
+        }
+    } else if (axis[0] === "y") {
+        if (
+            y.indexOf(alg[0].toUpperCase()) !== -1 &&
+            alg[0] === alg[0].toLowerCase()
+        ) {
+            alg = alg.toUpperCase();
+            lowercase = true;
+            console.log("yes");
+        }
+    } else if (axis[0] === "z") {
+        if (
+            z.indexOf(alg[0].toUpperCase()) !== -1 &&
+            alg[0] === alg[0].toLowerCase()
+        ) {
+            alg = alg.toUpperCase();
+            lowercase = true;
+        }
+    }
     switch (axis) {
         case "x":
             index = x.indexOf(alg[0]);
             if (index !== -1) {
                 if (index === 3) {
-                    return x[0] + char2;
+                    return lowercase
+                        ? (x[0] + char2).toLowerCase()
+                        : x[0] + char2;
                 } else {
-                    return x[index + 1] + char2;
+                    return lowercase
+                        ? (x[index + 1] + char2).toLowerCase()
+                        : x[index + 1] + char2;
                 }
             }
             return alg;
@@ -215,9 +246,13 @@ const changeMove = (alg, axis) => {
             index = x.indexOf(alg[0]);
             if (index !== -1) {
                 if (index === 0) {
-                    return x[3] + char2;
+                    return lowercase
+                        ? (x[3] + char2).toLowerCase()
+                        : x[3] + char2;
                 } else {
-                    return x[index - 1] + char2;
+                    return lowercase
+                        ? (x[index - 1] + char2).toLowerCase()
+                        : x[index - 1] + char2;
                 }
             }
             return alg;
@@ -225,11 +260,17 @@ const changeMove = (alg, axis) => {
             index = x.indexOf(alg[0]);
             if (index !== -1) {
                 if (index === 2) {
-                    return x[0] + char2;
+                    return lowercase
+                        ? (x[0] + char2).toLowerCase()
+                        : x[0] + char2;
                 } else if (index === 3) {
-                    return x[1] + char2;
+                    return lowercase
+                        ? (x[1] + char2).toLowerCase()
+                        : x[1] + char2;
                 } else {
-                    return x[index + 2] + char2;
+                    return lowercase
+                        ? (x[index + 2] + char2).toLowerCase()
+                        : x[index + 2] + char2;
                 }
             }
             return alg;
@@ -237,9 +278,13 @@ const changeMove = (alg, axis) => {
             index = y.indexOf(alg[0]);
             if (index !== -1) {
                 if (index === 3) {
-                    return y[0] + char2;
+                    return lowercase
+                        ? (y[0] + char2).toLowerCase()
+                        : y[0] + char2;
                 } else {
-                    return y[index + 1] + char2;
+                    return lowercase
+                        ? (y[index + 1] + char2).toLowerCase()
+                        : y[index + 1] + char2;
                 }
             }
             return alg;
@@ -247,9 +292,13 @@ const changeMove = (alg, axis) => {
             index = y.indexOf(alg[0]);
             if (index !== -1) {
                 if (index === 0) {
-                    return y[3] + char2;
+                    return lowercase
+                        ? (y[3] + char2).toLowerCase()
+                        : y[3] + char2;
                 } else {
-                    return y[index - 1] + char2;
+                    return lowercase
+                        ? (y[index - 1] + char2).toLowerCase()
+                        : y[index - 1] + char2;
                 }
             }
             return alg;
@@ -257,11 +306,17 @@ const changeMove = (alg, axis) => {
             index = y.indexOf(alg[0]);
             if (index !== -1) {
                 if (index === 2) {
-                    return y[0] + char2;
+                    return lowercase
+                        ? (y[0] + char2).toLowerCase()
+                        : y[0] + char2;
                 } else if (index === 3) {
-                    return y[1] + char2;
+                    return lowercase
+                        ? (y[1] + char2).toLowerCase()
+                        : y[1] + char2;
                 } else {
-                    return y[index + 2] + char2;
+                    return lowercase
+                        ? (y[index + 2] + char2).toLowerCase()
+                        : y[index + 2] + char2;
                 }
             }
             return alg;
@@ -269,9 +324,13 @@ const changeMove = (alg, axis) => {
             index = z.indexOf(alg[0]);
             if (index !== -1) {
                 if (index === 3) {
-                    return z[0] + char2;
+                    return lowercase
+                        ? (z[0] + char2).toLowerCase()
+                        : z[0] + char2;
                 } else {
-                    return z[index + 1] + char2;
+                    return lowercase
+                        ? (z[index + 1] + char2).toLowerCase()
+                        : z[index + 1] + char2;
                 }
             }
             return alg;
@@ -279,9 +338,13 @@ const changeMove = (alg, axis) => {
             index = z.indexOf(alg[0]);
             if (index !== -1) {
                 if (index === 0) {
-                    return z[3] + char2;
+                    return lowercase
+                        ? (z[3] + char2).toLowerCase()
+                        : z[3] + char2;
                 } else {
-                    return z[index - 1] + char2;
+                    return lowercase
+                        ? (z[index - 1] + char2).toLowerCase()
+                        : z[index - 1] + char2;
                 }
             }
             return alg;
@@ -289,11 +352,17 @@ const changeMove = (alg, axis) => {
             index = z.indexOf(alg[0]);
             if (index !== -1) {
                 if (index === 2) {
-                    return z[0] + char2;
+                    return lowercase
+                        ? (z[0] + char2).toLowerCase()
+                        : z[0] + char2;
                 } else if (index === 3) {
-                    return z[1] + char2;
+                    return lowercase
+                        ? (z[1] + char2).toLowerCase()
+                        : z[1] + char2;
                 } else {
-                    return z[index + 2] + char2;
+                    return lowercase
+                        ? (z[index + 2] + char2).toLowerCase()
+                        : z[index + 2] + char2;
                 }
             }
             return alg;
