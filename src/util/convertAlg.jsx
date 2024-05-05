@@ -21,7 +21,6 @@ const convertAlg = (alg) => {
                 moves[j] = changeMove(moves[j], moves[i]);
             }
             moves[i] = "";
-            console.log(moves);
         } else {
             switch (moves[i]) {
                 case "M":
@@ -240,6 +239,14 @@ const changeMove = (alg, axis) => {
                         ? (x[index + 1] + char2).toLowerCase()
                         : x[index + 1] + char2;
                 }
+            } else if (alg[0] === "E" || alg[0] === "S") {
+                if (alg[1] === "2" || alg[1] === "3") {
+                    return alg[0] === "E" ? "S" + alg[1] : "E" + alg[1];
+                } else if (alg[0] === "E") {
+                    return alg.length > 1 ? "S" : "S'";
+                } else if (alg[0] === "S") {
+                    return alg.length > 1 ? "E'" : "E";
+                }
             }
             return alg;
         case "x'":
@@ -253,6 +260,14 @@ const changeMove = (alg, axis) => {
                     return lowercase
                         ? (x[index - 1] + char2).toLowerCase()
                         : x[index - 1] + char2;
+                }
+            } else if (alg[0] === "E" || alg[0] === "S") {
+                if (alg[1] === "2" || alg[1] === "3") {
+                    return alg[0] === "E" ? "S" + alg[1] : "E" + alg[1];
+                } else if (alg[0] === "E") {
+                    return alg.length > 1 ? "S'" : "S";
+                } else if (alg[0] === "S") {
+                    return alg.length > 1 ? "E" : "E'";
                 }
             }
             return alg;
@@ -272,6 +287,14 @@ const changeMove = (alg, axis) => {
                         ? (x[index + 2] + char2).toLowerCase()
                         : x[index + 2] + char2;
                 }
+            } else if (alg[0] === "E" || alg[0] === "S") {
+                if (alg[1] === "2" || alg[1] === "3") {
+                    return alg[0] === "E" ? "S" + alg[1] : "E" + alg[1];
+                } else if (alg[0] === "E") {
+                    return alg.length > 1 ? "E" : "E'";
+                } else if (alg[0] === "S") {
+                    return alg.length > 1 ? "S" : "S'";
+                }
             }
             return alg;
         case "y":
@@ -286,6 +309,14 @@ const changeMove = (alg, axis) => {
                         ? (y[index + 1] + char2).toLowerCase()
                         : y[index + 1] + char2;
                 }
+            } else if (alg[0] === "M" || alg[0] === "S") {
+                if (alg[1] === "2" || alg[1] === "3") {
+                    return alg[0] === "M" ? "S" + alg[1] : "M" + alg[1];
+                } else if (alg[0] === "M") {
+                    return alg.length > 1 ? "S'" : "S";
+                } else if (alg[0] === "S") {
+                    return alg.length > 1 ? "M" : "M'";
+                }
             }
             return alg;
         case "y'":
@@ -299,6 +330,14 @@ const changeMove = (alg, axis) => {
                     return lowercase
                         ? (y[index - 1] + char2).toLowerCase()
                         : y[index - 1] + char2;
+                }
+            } else if (alg[0] === "M" || alg[0] === "S") {
+                if (alg[1] === "2" || alg[1] === "3") {
+                    return alg[0] === "M" ? "S" + alg[1] : "M" + alg[1];
+                } else if (alg[0] === "M") {
+                    return alg.length > 1 ? "S" : "S'";
+                } else if (alg[0] === "S") {
+                    return alg.length > 1 ? "M'" : "M";
                 }
             }
             return alg;
@@ -318,6 +357,14 @@ const changeMove = (alg, axis) => {
                         ? (y[index + 2] + char2).toLowerCase()
                         : y[index + 2] + char2;
                 }
+            } else if (alg[0] === "M" || alg[0] === "S") {
+                if (alg[1] === "2" || alg[1] === "3") {
+                    return alg[0] === "M" ? "S" + alg[1] : "M" + alg[1];
+                } else if (alg[0] === "M") {
+                    return alg.length > 1 ? "M" : "M'";
+                } else if (alg[0] === "S") {
+                    return alg.length > 1 ? "S" : "S'";
+                }
             }
             return alg;
         case "z":
@@ -332,6 +379,14 @@ const changeMove = (alg, axis) => {
                         ? (z[index + 1] + char2).toLowerCase()
                         : z[index + 1] + char2;
                 }
+            } else if (alg[0] === "M" || alg[0] === "E") {
+                if (alg[1] === "2" || alg[1] === "3") {
+                    return alg[0] === "M" ? "E" + alg[1] : "M" + alg[1];
+                } else if (alg[0] === "M") {
+                    return alg.length > 1 ? "E'" : "E";
+                } else if (alg[0] === "E") {
+                    return alg.length > 1 ? "M" : "M'";
+                }
             }
             return alg;
         case "z'":
@@ -345,6 +400,14 @@ const changeMove = (alg, axis) => {
                     return lowercase
                         ? (z[index - 1] + char2).toLowerCase()
                         : z[index - 1] + char2;
+                }
+            } else if (alg[0] === "M" || alg[0] === "E") {
+                if (alg[1] === "2" || alg[1] === "3") {
+                    return alg[0] === "M" ? "E" + alg[1] : "M" + alg[1];
+                } else if (alg[0] === "M") {
+                    return alg.length > 1 ? "E" : "E'";
+                } else if (alg[0] === "E") {
+                    return alg.length > 1 ? "M'" : "M";
                 }
             }
             return alg;
@@ -363,6 +426,14 @@ const changeMove = (alg, axis) => {
                     return lowercase
                         ? (z[index + 2] + char2).toLowerCase()
                         : z[index + 2] + char2;
+                }
+            } else if (alg[0] === "M" || alg[0] === "E") {
+                if (alg[1] === "2" || alg[1] === "3") {
+                    return alg[0] === "M" ? "E" + alg[1] : "M" + alg[1];
+                } else if (alg[0] === "M") {
+                    return alg.length > 1 ? "M" : "M'";
+                } else if (alg[0] === "E") {
+                    return alg.length > 1 ? "E" : "E'";
                 }
             }
             return alg;
