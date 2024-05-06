@@ -45,26 +45,36 @@ const TimesPanel = ({ times, setSavedTimes }) => {
                     >
                         <AiOutlineClose />
                     </button>
-                    <div className="mt-2 lg:text-xl font-semibold">
+                    <div className="mt-2 lg:text-2xl font-semibold">
                         {selectedTime.name}
                     </div>
-                    <img
-                        src={`https://cubiclealgdbimagegen.azurewebsites.net/generator?&puzzle=3&size=200&alg=${
-                            "y2 " + selectedTime.scramble
-                        }`}
-                        alt={selectedTime.name}
-                        className="w-[30%] -mt-1"
-                    />
                     <div className="lg:text-xl">
-                        {formatTime(selectedTime.time)}
+                        Time: {formatTime(selectedTime.time)}
                     </div>
-                    <div className="underline">Scramble:</div>
-                    <div className="text-center text-xs px-2">
-                        {selectedTime.scramble}
-                    </div>
-                    <div className="underline">Algorithm:</div>
-                    <div className="text-center text-xs px-2">
-                        {selectedTime.alg}
+                    <div className="flex flex-col lg:items-stretch items-center lg:flex-row lg:flex-grow m-2 mt-1">
+                        <img
+                            src={`https://cubiclealgdbimagegen.azurewebsites.net/generator?&puzzle=3&size=200&alg=${
+                                "y2 " + selectedTime.scramble
+                            }`}
+                            alt={selectedTime.name}
+                            className="w-[40%] border-2 border-gray-400 rounded-xl mr-2"
+                        />
+                        <div className="text-center border-2 border-gray-400 rounded-xl flex flex-col justify-center items-center">
+                            <div>
+                                <div className="font-semibold">Scramble:</div>
+                                <div className="text-center lg:text-sm text-xs px-2">
+                                    {selectedTime.scramble}
+                                </div>
+                            </div>
+                            <div>
+                                <div className="font-semibold mt-1">
+                                    Algorithm:
+                                </div>
+                                <div className="text-center lg:text-sm text-xs px-2">
+                                    {selectedTime.alg}
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             ) : times.length > 0 ? (
@@ -72,7 +82,7 @@ const TimesPanel = ({ times, setSavedTimes }) => {
                     <div className="flex justify-center font-bold my-1 lg:text-base text-sm">
                         Time Count: {times.length}
                     </div>
-                    <div className="flex flex-wrap justify-center m-2 mt-0  overflow-y-scroll">
+                    <div className="flex flex-wrap justify-center lg:m-2 lg:mt-0 overflow-y-scroll">
                         {times.map((time, index) => (
                             <button
                                 key={index}
