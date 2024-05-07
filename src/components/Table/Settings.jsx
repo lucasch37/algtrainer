@@ -114,6 +114,8 @@ const Settings = ({ open, onClose }) => {
                                     <option value="Name">Name</option>
                                     <option value="Shortest">Shortest</option>
                                     <option value="Longest">Longest</option>
+                                    <option value="Best Time">Best Time</option>
+                                    <option value="Avg. Time">Avg. Time</option>
                                 </select>
                             </div>
                         </div>

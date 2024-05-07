@@ -207,7 +207,7 @@ const Trainer = () => {
                 Trainer
             </div>
             <div className="flex justify-center mt-4">
-                <div className="w-[90vw] h-[70vh] justify-between flex flex-col">
+                <div className="w-[90vw] max-w-[1800px] h-[70vh] max-h-[830px] justify-between flex flex-col">
                     <div className="h-[8%] bg-gray-800 rounded-xl flex items-center justify-center text-3xl relative">
                         <button className="absolute left-0">
                             <IoMdArrowDropleft
@@ -280,7 +280,7 @@ const Trainer = () => {
                     </div>
                 </div>
             </div>
-            <div className="flex justify-center items-center mt-2">
+            <div className="flex justify-center items-center mt-3">
                 <div className="font-bold mr-2 text-2xl">Settings:</div>
                 <div className="border rounded-xl p-1 px-2 mr-2">
                     <input

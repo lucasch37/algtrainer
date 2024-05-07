@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { AiFillQuestionCircle, AiOutlinePlus } from "react-icons/ai";
 import { IoIosSettings } from "react-icons/io";
+import { FaFolderOpen } from "react-icons/fa";
 import AddAlgs from "./AddAlgs";
 import TableItem from "./TableItem";
 import Settings from "./Settings";
 import About from "./About";
+import sortByTime from "../../util/sortByTime";
 
 const Table = () => {
     const [showAddMenu, setShowAddMenu] = useState(false);
@@ -39,6 +41,12 @@ const Table = () => {
                 algData.sort((a, b) => a.name.localeCompare(b.name));
                 algData.sort((a, b) => b.alg.length - a.alg.length);
                 break;
+            case "Best Time":
+                sortByTime(algData, "best");
+                break;
+            case "Avg. Time":
+                sortByTime(algData, "avg");
+                break;
         }
         setData(algData);
     };
@@ -56,6 +64,13 @@ const Table = () => {
                     Add/Edit Algorithms
                     <AiOutlinePlus className="lg:text-xl ml-1" />
                 </button>
+                {/* <button
+                    className="px-3 py-2 rounded-xl bg-yellow-800 text-yellow-400 ml-2 flex items-center text-base"
+                    onClick={() => setShowAddMenu(true)}
+                >
+                    My Algsets
+                    <FaFolderOpen className="lg:text-xl ml-1" />
+                </button> */}
                 <button
                     className="px-3 py-2 rounded-xl bg-gray-600 text-gray-300 flex items-center ml-2 text-base"
                     onClick={() => setShowSettings(true)}
