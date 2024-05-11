@@ -10,21 +10,21 @@ const TableItem = ({ data }) => {
     const [highlighting, setHighlighting] = useState("All");
 
     useEffect(() => {
-        const timeData = JSON.parse(localStorage.getItem("times"));
-        if (timeData) {
-            for (let i = 0; i < timeData.length; i++) {
-                if (timeData[i].name === data.name) {
-                    setTimes((prev) => [...prev, timeData[i]]);
+        const algset = JSON.parse(localStorage.getItem("algset"));
+        if (algset) {
+            const timeData = JSON.parse(algset.times);
+            if (timeData) {
+                for (let i = 0; i < timeData.length; i++) {
+                    if (timeData[i].name === data.name) {
+                        setTimes((prev) => [...prev, timeData[i]]);
+                    }
                 }
             }
-        }
-        const view = localStorage.getItem("image");
-        if (view) {
-            setView(view);
-        }
-        const highlighting = localStorage.getItem("highlighting");
-        if (highlighting) {
-            setHighlighting(highlighting);
+            const settings = JSON.parse(algset.settings);
+            if (settings.length > 0) {
+                setView(settings[0]);
+                setHighlighting(settings[1]);
+            }
         }
     }, []);
 

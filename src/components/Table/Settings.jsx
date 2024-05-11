@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Popup from "../Popup";
+import saveAlgset from "../../util/saveAlgset";
 
 const Settings = ({ open, onClose }) => {
     const [image, setImage] = useState("Planted");
@@ -20,21 +21,25 @@ const Settings = ({ open, onClose }) => {
 
     const handleSave = () => {
         onClose();
-        localStorage.setItem("image", image);
-        localStorage.setItem("sortBy", sortBy);
-        localStorage.setItem("highlighting", highlighting);
+        if (localStorage.getItem("algset")) {
+            const settings = [image, highlighting, sortBy];
+            const algset = JSON.parse(localStorage.getItem("algset"));
+            algset.settings = JSON.stringify(settings);
+            localStorage.setItem("algset", JSON.stringify(algset));
+            saveAlgset(JSON.parse(localStorage.getItem("algset")));
+        }
         window.location.reload();
     };
 
     useEffect(() => {
-        if (localStorage.getItem("image")) {
-            setImage(localStorage.getItem("image"));
-        }
-        if (localStorage.getItem("sortBy")) {
-            setSortBy(localStorage.getItem("sortBy"));
-        }
-        if (localStorage.getItem("highlighting")) {
-            setHighlighting(localStorage.getItem("highlighting"));
+        if (localStorage.getItem("algset")) {
+            const algset = JSON.parse(localStorage.getItem("algset"));
+            if (JSON.parse(algset.settings).length > 0) {
+                const settings = JSON.parse(algset.settings);
+                setImage(settings[0]);
+                setHighlighting(settings[1]);
+                setSortBy(settings[2]);
+            }
         }
     }, []);
 
@@ -47,7 +52,7 @@ const Settings = ({ open, onClose }) => {
                 <div className="bg-gray-700 h-fit flex overflow-y-scroll">
                     <div className="px-4 py-3">
                         <div className="flex items-center">
-                            <div className="lg:text-xl font-bold mr-2">
+                            <div className="lg:text-xl font-semibold mr-2">
                                 Case Image:
                             </div>
                             <div>
@@ -69,7 +74,7 @@ const Settings = ({ open, onClose }) => {
                             </div>
                         </div>
                         <div className="flex items-center mt-1">
-                            <div className="lg:text-xl font-bold mr-2">
+                            <div className="lg:text-xl font-semibold mr-2">
                                 Image Highlighting:
                             </div>
                             <div>
@@ -99,13 +104,13 @@ const Settings = ({ open, onClose }) => {
                             </div>
                         </div>
                         <div className="flex items-center mt-1">
-                            <div className="lg:text-xl font-bold mr-2">
+                            <div className="lg:text-xl font-semibold mr-2">
                                 Sort by:
                             </div>
                             <div className="">
                                 <select
                                     value={sortBy}
-                                    className="lg:p-1.5 p-1 text-center bg-gray-800 rounded-xl"
+                                    className="p-1 text-center bg-gray-800 rounded-xl"
                                     onChange={(e) =>
                                         handleSortChange(e.target.value)
                                     }
@@ -119,6 +124,20 @@ const Settings = ({ open, onClose }) => {
                                 </select>
                             </div>
                         </div>
+                        <div className="flex items-center mt-1">
+                            <div className="lg:text-xl font-semibold">
+                                Reset:
+                            </div>
+                            <div
+                                className="lg:text-base text-red-500 underline ml-2 cursor-pointer"
+                                onClick={() => {
+                                    localStorage.clear();
+                                    window.location.reload();
+                                }}
+                            >
+                                Reset Everything
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div className="h-fit py-2 bg-gray-700 flex justify-end items-center border-t border-gray-400">
@@ -127,22 +146,24 @@ const Settings = ({ open, onClose }) => {
                             className="lg:px-4 lg:py-2 px-2 py-1 bg-red-800 text-red-200 rounded-lg lg:rounded-xl mr-1"
                             onClick={() => {
                                 onClose();
-                                if (localStorage.getItem("image")) {
-                                    setImage(localStorage.getItem("image"));
-                                } else {
-                                    setImage("Planted");
-                                }
-                                if (localStorage.getItem("sortBy")) {
-                                    setSortBy(localStorage.getItem("sortBy"));
-                                } else {
-                                    setSortBy("Custom");
-                                }
-                                if (localStorage.getItem("highlighting")) {
-                                    setHighlighting(
-                                        localStorage.getItem("highlighting")
+                                if (localStorage.getItem("algset")) {
+                                    const algset = JSON.parse(
+                                        localStorage.getItem("algset")
                                     );
-                                } else {
-                                    setHighlighting("All");
+                                    if (
+                                        JSON.parse(algset.settings).length > 0
+                                    ) {
+                                        const settings = JSON.parse(
+                                            algset.settings
+                                        );
+                                        setImage(settings[0]);
+                                        setHighlighting(settings[1]);
+                                        setHighlighting(settings[2]);
+                                    } else {
+                                        setImage("Planted");
+                                        setHighlighting("All");
+                                        setSortBy("Custom");
+                                    }
                                 }
                             }}
                         >

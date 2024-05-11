@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Popup from "../Popup";
 import convertAlg from "../../util/convertAlg";
+import saveAlgset from "../../util/saveAlgset";
 
 const Alg = ({ alg, state, setSelectedAlgs, setCount, open }) => {
     const [selected, setSelected] = useState(true);
@@ -8,7 +9,9 @@ const Alg = ({ alg, state, setSelectedAlgs, setCount, open }) => {
     const [highlighting, setHighlighting] = useState("All");
 
     useEffect(() => {
-        const parsedSelAlgs = JSON.parse(localStorage.getItem("selectedAlgs"));
+        const parsedSelAlgs = JSON.parse(
+            JSON.parse(localStorage.getItem("algset")).selectedAlgs
+        );
         if (parsedSelAlgs) {
             const selAlgs = parsedSelAlgs.map((alg) => alg.name);
             if (selAlgs.indexOf(alg.name) !== -1) {
@@ -81,13 +84,18 @@ const Alg = ({ alg, state, setSelectedAlgs, setCount, open }) => {
     );
 };
 
-const SelectTimes = ({ open, onClose, algs }) => {
+const SelectTimes = ({ open, onClose }) => {
     const [state, setState] = useState(true);
     const [selectedAlgs, setSelectedAlgs] = useState([]);
     const [count, setCount] = useState(0);
 
     const handleSave = () => {
-        localStorage.setItem("selectedAlgs", JSON.stringify(selectedAlgs));
+        const algset = JSON.parse(localStorage.getItem("algset"));
+        if (algset) {
+            algset.selectedAlgs = JSON.stringify(selectedAlgs);
+            localStorage.setItem("algset", JSON.stringify(algset));
+            saveAlgset(JSON.parse(localStorage.getItem("algset")));
+        }
         window.location.reload();
     };
 
@@ -129,8 +137,11 @@ const SelectTimes = ({ open, onClose, algs }) => {
                             </button>
                         </div>
                         <div className="flex flex-wrap justify-center pb-2">
-                            {algs ? (
-                                algs.map((alg, index) => (
+                            {JSON.parse(localStorage.getItem("algset")) ? (
+                                JSON.parse(
+                                    JSON.parse(localStorage.getItem("algset"))
+                                        .algs
+                                ).map((alg, index) => (
                                     <Alg
                                         alg={alg}
                                         key={index}

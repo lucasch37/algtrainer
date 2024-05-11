@@ -7,6 +7,7 @@ import HintPanel from "./HintPanel";
 import StatsPanel from "./StatsPanel";
 import TimesPanel from "./TimesPanel";
 import SelectTimes from "./SelectTimes";
+import saveAlgset from "../../util/saveAlgset";
 
 const Trainer = () => {
     const [time, setTime] = useState(0);
@@ -58,24 +59,29 @@ const Trainer = () => {
     };
 
     const getScramble = (AUF, cn) => {
-        const algs = JSON.parse(localStorage.getItem("selectedAlgs"));
-        if (algs) {
-            if (algs.length > 0) {
-                const index = Math.floor(Math.random() * algs.length);
-                setAlg(algs[index]);
-                const generatedScramble = generateScramble(
-                    algs[index].alg,
-                    AUF,
-                    cn
-                );
-                setScramble(generatedScramble);
+        const algset = JSON.parse(localStorage.getItem("algset"));
+        if (algset) {
+            const algs = JSON.parse(algset.selectedAlgs);
+            if (algs) {
+                if (algs.length > 0) {
+                    const index = Math.floor(Math.random() * algs.length);
+                    setAlg(algs[index]);
+                    const generatedScramble = generateScramble(
+                        algs[index].alg,
+                        AUF,
+                        cn
+                    );
+                    setScramble(generatedScramble);
+                }
             }
         }
     };
 
     useEffect(() => {
-        if (JSON.parse(localStorage.getItem("times"))) {
-            setSavedTimes(JSON.parse(localStorage.getItem("times")));
+        if (localStorage.getItem("algset")) {
+            setSavedTimes(
+                JSON.parse(JSON.parse(localStorage.getItem("algset")).times)
+            );
         }
         if (JSON.parse(localStorage.getItem("settings"))) {
             setUse3D(JSON.parse(localStorage.getItem("settings"))[0]);
@@ -112,13 +118,16 @@ const Trainer = () => {
                 name: alg.name,
             };
             setSavedTimes((prev) => [...prev, data]);
-            saveTime(JSON.stringify([...savedTimes, data]));
+            saveTime([...savedTimes, data]);
             getScramble(useAUF, cn);
         }
     }, [runTimer]);
 
     const saveTime = (times) => {
-        localStorage.setItem("times", times);
+        const algset = JSON.parse(localStorage.getItem("algset"));
+        algset.times = JSON.stringify(times);
+        localStorage.setItem("algset", JSON.stringify(algset));
+        saveAlgset(JSON.parse(localStorage.getItem("algset")));
     };
 
     const handleCheck = (name) => {
@@ -201,7 +210,6 @@ const Trainer = () => {
             <SelectTimes
                 open={showSelectAlgs}
                 onClose={() => setShowSelectAlgs(false)}
-                algs={JSON.parse(localStorage.getItem("algData"))}
             />
             <div className="flex justify-center font-semibold text-5xl mt-3">
                 Trainer
@@ -233,15 +241,19 @@ const Trainer = () => {
                                 className="absolute top-2 text-2xl text-blue-400 cursor-pointer hover:text-blue-600"
                                 onClick={() => setShowSelectAlgs(true)}
                             >
-                                {localStorage.getItem("selectedAlgs")
+                                {JSON.parse(localStorage.getItem("algset"))
                                     ? JSON.parse(
-                                          localStorage.getItem("selectedAlgs")
+                                          JSON.parse(
+                                              localStorage.getItem("algset")
+                                          ).selectedAlgs
                                       ).length
                                     : 0}{" "}
-                                {localStorage.getItem("selectedAlgs")
+                                {JSON.parse(localStorage.getItem("algset"))
                                     ? JSON.parse(
-                                          localStorage.getItem("selectedAlgs")
-                                      ).length > 1
+                                          JSON.parse(
+                                              localStorage.getItem("algset")
+                                          ).selectedAlgs
+                                      ).length !== 1
                                         ? "cases selected"
                                         : "case selected"
                                     : "cases selected"}
@@ -335,8 +347,12 @@ const Trainer = () => {
                 <button
                     className="text-center text-xl underline text-red-500"
                     onClick={() => {
-                        localStorage.removeItem("times");
-                        localStorage.removeItem("ao5");
+                        const algset = JSON.parse(
+                            localStorage.getItem("algset")
+                        );
+                        algset.times = JSON.stringify([]);
+                        localStorage.setItem("algset", JSON.stringify(algset));
+                        saveAlgset(JSON.parse(localStorage.getItem("algset")));
                         window.location.reload();
                     }}
                 >

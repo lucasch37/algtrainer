@@ -126,9 +126,9 @@ const AddAlgs = ({ open, onClose }) => {
     };
 
     useEffect(() => {
-        const savedText = localStorage.getItem("algText");
-        if (savedText) {
-            setText(savedText);
+        const algset = JSON.parse(localStorage.getItem("algset"));
+        if (algset) {
+            setText(algset.algText);
         }
     }, []);
 

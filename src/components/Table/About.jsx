@@ -9,7 +9,7 @@ const About = ({ open, onClose }) => {
                 <div className="lg:text-3xl text-xl p-4 font-semibold ">
                     About
                 </div>
-                <div className="bg-gray-700 lg:h-[320px] h-[80vh] flex overflow-y-scroll">
+                <div className="bg-gray-700 lg:h-[320px] h-[60vh] flex overflow-y-scroll">
                     <div className="px-4 py-3">
                         <div className="font-bold text-xl">About</div>
                         <div>

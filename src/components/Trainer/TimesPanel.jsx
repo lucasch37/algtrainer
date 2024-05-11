@@ -22,7 +22,9 @@ const TimesPanel = ({ times, setSavedTimes }) => {
         const updatedTimes = [...times];
         updatedTimes.splice(times.indexOf(time), 1);
         setSavedTimes(updatedTimes);
-        localStorage.setItem("times", JSON.stringify(updatedTimes));
+        const algset = JSON.parse(localStorage.getItem("algset"));
+        algset.times = JSON.stringify(updatedTimes);
+        localStorage.setItem("algset", JSON.stringify(algset));
         setSelectedTime();
     };
 

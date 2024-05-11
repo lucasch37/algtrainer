@@ -7,24 +7,27 @@ import TableItem from "./TableItem";
 import Settings from "./Settings";
 import About from "./About";
 import sortByTime from "../../util/sortByTime";
+import Algsets from "./Algsets";
 
 const Table = () => {
     const [showAddMenu, setShowAddMenu] = useState(false);
     const [showSettings, setShowSettings] = useState(false);
     const [showAbout, setShowAbout] = useState(false);
     const [data, setData] = useState([]);
+    const [showAlgsets, setShowAlgsets] = useState(false);
 
     useEffect(() => {
-        const algData = localStorage.getItem("algData");
-        if (algData) {
-            const algDataParsed = JSON.parse(algData);
-            setData(algDataParsed);
-        }
-        if (localStorage.getItem("sortBy")) {
-            handleSortChange(
-                localStorage.getItem("sortBy"),
-                JSON.parse(localStorage.getItem("algData"))
-            );
+        const algset = JSON.parse(localStorage.getItem("algset"));
+        if (algset) {
+            const algData = algset.algs;
+            const settings = JSON.parse(algset.settings);
+            if (algData) {
+                const algDataParsed = JSON.parse(algData);
+                setData(algDataParsed);
+            }
+            if (settings.length > 0) {
+                handleSortChange(settings[2], JSON.parse(algData));
+            }
         }
     }, []);
 
@@ -58,19 +61,19 @@ const Table = () => {
             </div>
             <div className="flex justify-center mt-4">
                 <button
-                    className="px-3 py-2 rounded-xl bg-green-800 text-green-400 flex items-center text-base"
+                    className="px-3 py-2 rounded-xl bg-sky-700 text-sky-200 ml-2 flex items-center text-base"
+                    onClick={() => setShowAlgsets(true)}
+                >
+                    Algsets
+                    <FaFolderOpen className="lg:text-xl ml-1" />
+                </button>
+                <button
+                    className="px-3 py-2 rounded-xl bg-green-800 text-green-400 ml-2 flex items-center text-base"
                     onClick={() => setShowAddMenu(true)}
                 >
                     Add/Edit Algorithms
                     <AiOutlinePlus className="lg:text-xl ml-1" />
                 </button>
-                {/* <button
-                    className="px-3 py-2 rounded-xl bg-yellow-800 text-yellow-400 ml-2 flex items-center text-base"
-                    onClick={() => setShowAddMenu(true)}
-                >
-                    My Algsets
-                    <FaFolderOpen className="lg:text-xl ml-1" />
-                </button> */}
                 <button
                     className="px-3 py-2 rounded-xl bg-gray-600 text-gray-300 flex items-center ml-2 text-base"
                     onClick={() => setShowSettings(true)}
@@ -91,6 +94,7 @@ const Table = () => {
                 open={showSettings}
                 onClose={() => setShowSettings(false)}
             />
+            <Algsets open={showAlgsets} onClose={() => setShowAlgsets(false)} />
             <About open={showAbout} onClose={() => setShowAbout(false)} />
             <div className="flex justify-center mt-4">
                 <div className=" rounded-xl overflow-hidden">
@@ -100,8 +104,8 @@ const Table = () => {
                                 <th className="w-[10%] p-2">Name</th>
                                 <th className="w-[10%] p-2">Case</th>
                                 <th className="w-[60%] p-2">Algorithm</th>
-                                <th className="w-[10%] p-2">Best Time</th>
-                                <th className="w-[10%] p-2">Avg. Time</th>
+                                <th className="w-[10%] p-2">Best</th>
+                                <th className="w-[10%] p-2">Avg.</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -113,7 +117,7 @@ const Table = () => {
                                 <tr>
                                     <td></td>
                                     <td></td>
-                                    <td className="text-center text-lg p-5 text-gray-400 italic">
+                                    <td className="text-center text-lg p-5 text-gray-400">
                                         No Algorithms Added
                                     </td>
                                     <td></td>

@@ -5,24 +5,29 @@ import AddAlgs from "./AddAlgs";
 import TableItemMobile from "./TableItemMobile";
 import Settings from "./Settings";
 import About from "./About";
+import sortByTime from "../../util/sortByTime";
+import { FaFolderOpen } from "react-icons/fa";
+import Algsets from "./Algsets";
 
 const TableMobile = () => {
     const [showAddMenu, setShowAddMenu] = useState(false);
     const [showSettings, setShowSettings] = useState(false);
     const [showAbout, setShowAbout] = useState(false);
     const [data, setData] = useState([]);
+    const [showAlgsets, setShowAlgsets] = useState(false);
 
     useEffect(() => {
-        const algData = localStorage.getItem("algData");
-        if (algData) {
-            const algDataParsed = JSON.parse(algData);
-            setData(algDataParsed);
-        }
-        if (localStorage.getItem("sortBy")) {
-            handleSortChange(
-                localStorage.getItem("sortBy"),
-                JSON.parse(localStorage.getItem("algData"))
-            );
+        const algset = JSON.parse(localStorage.getItem("algset"));
+        if (algset) {
+            const algData = algset.algs;
+            const settings = JSON.parse(algset.settings);
+            if (algData) {
+                const algDataParsed = JSON.parse(algData);
+                setData(algDataParsed);
+            }
+            if (settings.length > 0) {
+                handleSortChange(settings[2], JSON.parse(algData));
+            }
         }
     }, []);
 
@@ -39,6 +44,12 @@ const TableMobile = () => {
                 algData.sort((a, b) => a.name.localeCompare(b.name));
                 algData.sort((a, b) => b.alg.length - a.alg.length);
                 break;
+            case "Best Time":
+                sortByTime(algData, "best");
+                break;
+            case "Avg. Time":
+                sortByTime(algData, "avg");
+                break;
         }
         setData(algData);
     };
@@ -48,14 +59,21 @@ const TableMobile = () => {
             <div className="text-center font-semibold text-5xl mt-1">
                 Algorithms
             </div>
-            <div className="flex justify-center mt-3">
+            <div className="flex flex-wrap justify-center mt-3">
                 <button
-                    className="px-3 py-2 rounded-xl bg-green-800 text-green-400 flex items-center lg:text-base text-xs"
+                    className="px-3 py-2 rounded-xl bg-sky-700 text-sky-200 ml-1 flex items-center lg:text-base text-xs"
+                    onClick={() => setShowAlgsets(true)}
+                >
+                    Algsets
+                    <FaFolderOpen className="lg:text-xl ml-1" />
+                </button>
+                <button
+                    className="px-3 py-2 rounded-xl bg-green-800 text-green-400 ml-1 flex items-center lg:text-base text-xs"
                     onClick={() => {
                         setShowAddMenu(true);
                     }}
                 >
-                    Add/Edit Algorithms
+                    Add/Edit
                     <AiOutlinePlus className="lg:text-xl ml-1" />
                 </button>
                 <button
@@ -79,6 +97,7 @@ const TableMobile = () => {
                 onClose={() => setShowSettings(false)}
             />
             <About open={showAbout} onClose={() => setShowAbout(false)} />
+            <Algsets open={showAlgsets} onClose={() => setShowAlgsets(false)} />
             <div className="flex justify-center">
                 <div className="flex flex-col justify-center mt-3 w-[90vw]">
                     {data.length > 0 ? (
@@ -86,7 +105,7 @@ const TableMobile = () => {
                             <TableItemMobile data={data} key={index} />
                         ))
                     ) : (
-                        <div className="text-center text-gray-400 italic">
+                        <div className="text-center text-gray-400">
                             No Algorithms Added
                         </div>
                     )}

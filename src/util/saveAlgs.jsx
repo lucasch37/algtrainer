@@ -26,9 +26,34 @@ const saveAlgs = (text) => {
         algData.push(data);
     }
     const algDataString = JSON.stringify(algData);
-    localStorage.setItem("algText", text);
-    localStorage.setItem("algData", algDataString);
-    localStorage.setItem("selectedAlgs", algDataString);
+    if (localStorage.getItem("algset")) {
+        const algset = JSON.parse(localStorage.getItem("algset"));
+        algset.algs = algDataString;
+        algset.selectedAlgs = algDataString;
+        algset.algText = text;
+        localStorage.setItem("algset", JSON.stringify(algset));
+        const algsets = JSON.parse(localStorage.getItem("algsets"));
+        for (let i = 0; i < algsets.length; i++) {
+            if (algsets[i].name === algset.name) {
+                algsets[i] = algset;
+            }
+        }
+        localStorage.setItem("algsets", JSON.stringify(algsets));
+    } else {
+        const algset = {
+            name: "default",
+            algs: algDataString,
+            selectedAlgs: algDataString,
+            times: JSON.stringify([]),
+            algText: text,
+            settings: JSON.stringify([]),
+        };
+        localStorage.setItem("algset", JSON.stringify(algset));
+        localStorage.setItem("algsets", JSON.stringify([algset]));
+    }
+    // localStorage.setItem("algText", text);
+    // localStorage.setItem("algData", algDataString);
+    // localStorage.setItem("selectedAlgs", algDataString);
 };
 
 export default saveAlgs;
