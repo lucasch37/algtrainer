@@ -60,13 +60,16 @@ const TimesPanel = ({ times, setSavedTimes }) => {
                     </div>
                     <div className="flex flex-col lg:items-stretch items-center lg:flex-row lg:flex-grow m-2 mt-1">
                         <img
-                            src={`https://cubiclealgdbimagegen.azurewebsites.net/generator?&puzzle=3&size=200&alg=${
-                                "y2 " + selectedTime.scramble
-                            }`}
+                            src={`https://cubiclealgdbimagegen.azurewebsites.net/generator?&puzzle=${
+                                JSON.parse(localStorage.getItem("algset"))
+                                    .puzzle === "3x3"
+                                    ? "3"
+                                    : "2"
+                            }&size=200&alg=${"y2 " + selectedTime.scramble}`}
                             alt={selectedTime.name}
                             className="w-[40%] border-2 border-gray-400 rounded-xl mr-2"
                         />
-                        <div className="text-center border-2 border-gray-400 rounded-xl flex flex-col justify-center items-center">
+                        <div className="text-center border-2 border-gray-400 rounded-xl flex flex-col justify-center items-center w-[60%]">
                             <div>
                                 <div className="font-semibold">Scramble:</div>
                                 <div className="text-center lg:text-sm text-xs px-2">

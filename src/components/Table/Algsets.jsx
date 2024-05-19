@@ -7,9 +7,14 @@ import saveAlgset from "../../util/saveAlgset.jsx";
 const CreateNewPopup = ({ open, onClose }) => {
     const [text, setText] = useState("");
     const [errorText, setErrorText] = useState("");
+    const [puzzle, setPuzzle] = useState("3x3");
 
     const handleTextChange = (event) => {
         setText(event.target.value);
+    };
+
+    const handlePuzzleChange = (event) => {
+        setPuzzle(event);
     };
 
     const handleSave = () => {
@@ -35,7 +40,8 @@ const CreateNewPopup = ({ open, onClose }) => {
                     selectedAlgs: JSON.stringify([]),
                     times: JSON.stringify([]),
                     algText: "",
-                    settings: JSON.stringify([]),
+                    settings: JSON.stringify(["Planted", "All", "Custom"]),
+                    puzzle: puzzle,
                 };
                 localStorage.setItem("algset", JSON.stringify(algset));
                 if (algsets) {
@@ -69,10 +75,19 @@ const CreateNewPopup = ({ open, onClose }) => {
                                 placeholder="Enter algset name (20 characters max)"
                             />
                         </div>
-                        <div className="flex items-cente mt-1">
-                            <div className="font-semibold text-xl">
-                                Puzzle: 3x3
-                            </div>
+                        <div className="flex items-center mt-1">
+                            <div className="font-semibold text-xl">Puzzle:</div>
+                            <select
+                                value={puzzle}
+                                className="p-1 lg:p-1.5 ml-1 lg:text-base text-sm text-center bg-[#283445] rounded-lg"
+                                onChange={(e) =>
+                                    handlePuzzleChange(e.target.value)
+                                }
+                            >
+                                <option value="3x3">3x3</option>
+                                <option value="2x2">2x2</option>
+                                <option value="Other">Other</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -87,6 +102,7 @@ const CreateNewPopup = ({ open, onClose }) => {
                                 onClose();
                                 setText("");
                                 setErrorText("");
+                                setPuzzle("3x3");
                             }}
                         >
                             Cancel
@@ -141,8 +157,6 @@ const Algsets = ({ open, onClose }) => {
             (arrAlgset) => arrAlgset.name !== algset.name
         );
         setAlgsets(updatedAlgsets);
-        // localStorage.setItem("algsets", JSON.stringify(savedAlgsets));
-        // window.location.reload();
     };
 
     const sortSets = (value, algsets) => {
@@ -219,10 +233,10 @@ const Algsets = ({ open, onClose }) => {
                                     <div
                                         className={`w-full flex bg-[#283445] p-2 mt-2 rounded-xl items-center cursor-pointer relative ${
                                             selected.name === algset.name
-                                                ? "border-4 border-blue-500"
-                                                : `border-4 border-gray-600 ${
+                                                ? "lg:border-4 border-2 border-blue-500"
+                                                : `lg:border-4 border-2 border-gray-600 ${
                                                       !deleteMode &&
-                                                      "hover:border-gray-400"
+                                                      "hover:border-gray-500"
                                                   }`
                                         }`}
                                         key={index}
@@ -233,7 +247,11 @@ const Algsets = ({ open, onClose }) => {
                                         }}
                                     >
                                         <img
-                                            src={`https://cubiclealgdbimagegen.azurewebsites.net/generator?&puzzle=3&size=200&case=${
+                                            src={`https://cubiclealgdbimagegen.azurewebsites.net/generator?&puzzle=${
+                                                algset.puzzle === "3x3"
+                                                    ? "3"
+                                                    : "2"
+                                            }&size=200&case=${
                                                 JSON.parse(algset.algs).length >
                                                 0
                                                     ? convertAlg(
@@ -246,7 +264,7 @@ const Algsets = ({ open, onClose }) => {
                                             alt="cube"
                                             className="w-[15%]"
                                         />
-                                        <div className="ml-2 font-semibold lg:text-2xl">
+                                        <div className="ml-2 font-semibold text-xl lg:text-2xl">
                                             {algset.name}
                                         </div>
                                         <div className="absolute right-6 lg:text-lg text-x flex flex-col">
@@ -265,20 +283,17 @@ const Algsets = ({ open, onClose }) => {
                                                         <AiOutlineClose className="text-xl" />
                                                     </div>
                                                 )}
-                                            <div>
+                                            <div className="lg:text-base text-sm">
                                                 <span className="font-semibold">
                                                     Algs:
                                                 </span>{" "}
                                                 {JSON.parse(algset.algs).length}
                                             </div>
-                                            <div>
+                                            <div className="lg:text-base text-sm">
                                                 <span className="font-semibold">
                                                     Puzzle:
                                                 </span>{" "}
-                                                {/* {
-                                                    JSON.parse(algset.times)
-                                                        .length
-                                                } */}
+                                                {algset.puzzle}
                                             </div>
                                         </div>
                                     </div>

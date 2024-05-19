@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Popup from "../Popup";
 import saveAlgs from "../../util/saveAlgs";
-import { PLL, OLL } from "./Presets";
+import { PLL, OLL, PBL, CLL } from "./Presets";
 import isValid from "../../util/isValid";
 
 const TextArea = ({ text, onChange }) => {
@@ -16,26 +16,46 @@ const TextArea = ({ text, onChange }) => {
     );
 };
 
-const Input = ({ text, onChange, setView, setText }) => {
+const Input = ({ text, onChange, setView, setText, puzzle }) => {
     return (
         <div className="px-4 py-2 w-full">
             <div className="mt-1 font-semibold lg:text-xl text-xl">
                 Enter Algorithms Here:
             </div>
-            <div className="mt-1 flex items-center">
+
+            <div className="mt-1 flex items-center flex-wrap">
                 <div className="mr-1 lg:text-base text-xs">Add Preset:</div>
-                <button
-                    className="py-1 px-3 rounded-xl bg-yellow-800 text-yellow-400 lg:text-sm text-xs"
-                    onClick={() => setText(OLL)}
-                >
-                    OLL
-                </button>
-                <button
-                    className="py-1 px-3 rounded-xl bg-yellow-800 text-yellow-400 lg:text-sm text-xs ml-1"
-                    onClick={() => setText(PLL)}
-                >
-                    PLL
-                </button>
+                {puzzle === "3x3" ? (
+                    <>
+                        <button
+                            className="py-1 px-3 rounded-xl bg-yellow-800 text-yellow-400 lg:text-sm text-xs"
+                            onClick={() => setText(OLL)}
+                        >
+                            OLL
+                        </button>
+                        <button
+                            className="py-1 px-3 rounded-xl bg-yellow-800 text-yellow-400 lg:text-sm text-xs ml-1"
+                            onClick={() => setText(PLL)}
+                        >
+                            PLL
+                        </button>
+                    </>
+                ) : (
+                    <>
+                        <button
+                            className="py-1 px-3 rounded-xl bg-yellow-800 text-yellow-400 lg:text-sm text-xs"
+                            onClick={() => setText(PBL)}
+                        >
+                            PBL
+                        </button>
+                        <button
+                            className="py-1 px-3 rounded-xl bg-yellow-800 text-yellow-400 lg:text-sm text-xs ml-1"
+                            onClick={() => setText(CLL)}
+                        >
+                            CLL
+                        </button>
+                    </>
+                )}
             </div>
             <div className="mt-2">
                 <TextArea text={text} onChange={onChange} />
@@ -96,6 +116,7 @@ const Format = () => {
                     <div>R L U D F B M S E r l u d f b</div>
                 </div>
                 <ul className="list-disc">
+                    <li>Use a maximum of 200 algorithms</li>
                     <li>
                         Almost any algorithm ranging from F2L, last layer,
                         blindfolded, FMC and more are usuable!
@@ -110,6 +131,7 @@ const AddAlgs = ({ open, onClose }) => {
     const [view, setView] = useState("Input");
     const [text, setText] = useState("");
     const [error, setError] = useState(false);
+    const [puzzle, setPuzzle] = useState("3x3");
 
     const handleChange = (event) => {
         setText(event.target.value);
@@ -129,6 +151,7 @@ const AddAlgs = ({ open, onClose }) => {
         const algset = JSON.parse(localStorage.getItem("algset"));
         if (algset) {
             setText(algset.algText);
+            setPuzzle(algset.puzzle);
         }
     }, []);
 
@@ -163,6 +186,7 @@ const AddAlgs = ({ open, onClose }) => {
                             onChange={handleChange}
                             setView={setView}
                             setText={setText}
+                            puzzle={puzzle}
                         />
                     ) : (
                         <Format />
@@ -181,10 +205,11 @@ const AddAlgs = ({ open, onClose }) => {
                             onClick={() => {
                                 onClose();
                                 setError(false);
-                                const savedText =
-                                    localStorage.getItem("algText");
-                                if (savedText) {
-                                    setText(savedText);
+                                const algset = JSON.parse(
+                                    localStorage.getItem("algset")
+                                );
+                                if (algset) {
+                                    setText(algset.algText);
                                 } else {
                                     setText("");
                                 }

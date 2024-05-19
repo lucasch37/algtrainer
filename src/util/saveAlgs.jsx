@@ -39,18 +39,19 @@ const saveAlgs = (text) => {
             }
         }
         localStorage.setItem("algsets", JSON.stringify(algsets));
-    } else {
-        const algset = {
-            name: "default",
-            algs: algDataString,
-            selectedAlgs: algDataString,
-            times: JSON.stringify([]),
-            algText: text,
-            settings: JSON.stringify([]),
-        };
-        localStorage.setItem("algset", JSON.stringify(algset));
-        localStorage.setItem("algsets", JSON.stringify([algset]));
     }
+    // } else {
+    //     const algset = {
+    //         name: "default",
+    //         algs: algDataString,
+    //         selectedAlgs: algDataString,
+    //         times: JSON.stringify([]),
+    //         algText: text,
+    //         settings: JSON.stringify(["Planted", "All", "Custom"]),
+    //     };
+    //     localStorage.setItem("algset", JSON.stringify(algset));
+    //     localStorage.setItem("algsets", JSON.stringify([algset]));
+    // }
     // localStorage.setItem("algText", text);
     // localStorage.setItem("algData", algDataString);
     // localStorage.setItem("selectedAlgs", algDataString);

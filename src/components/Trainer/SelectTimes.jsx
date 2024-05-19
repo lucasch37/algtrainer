@@ -53,13 +53,10 @@ const Alg = ({ alg, state, setSelectedAlgs, setCount, open }) => {
     }, [selected]);
 
     useEffect(() => {
-        const view = localStorage.getItem("image");
-        if (view) {
-            setView(view);
-        }
-        const highlighting = localStorage.getItem("highlighting");
-        if (highlighting) {
-            setHighlighting(highlighting);
+        const algset = JSON.parse(localStorage.getItem("algset"));
+        if (algset) {
+            setView(JSON.parse(algset.settings)[0]);
+            setHighlighting(JSON.parse(algset.settings)[1]);
         }
     }, []);
 
@@ -72,9 +69,13 @@ const Alg = ({ alg, state, setSelectedAlgs, setCount, open }) => {
         >
             {alg.name}
             <img
-                src={`https://cubiclealgdbimagegen.azurewebsites.net/generator?&puzzle=3&size=200&view=${
-                    view === "Planted" && "plan"
-                }${highlighting === "OLL" ? "&stage=oll" : ""}${
+                src={`https://cubiclealgdbimagegen.azurewebsites.net/generator?&puzzle=${
+                    JSON.parse(localStorage.getItem("algset")).puzzle === "3x3"
+                        ? "3"
+                        : "2"
+                }&size=200&view=${view === "Planted" && "plan"}${
+                    highlighting === "OLL" ? "&stage=oll" : ""
+                }${
                     highlighting === "F2L" ? "&stage=f2l" : ""
                 }&case=${convertAlg(alg.alg)}`}
                 alt={alg.name}

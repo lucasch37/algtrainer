@@ -58,7 +58,7 @@ const Trainer = () => {
         }
     };
 
-    const getScramble = (AUF, cn) => {
+    const getScramble = async (AUF, cn) => {
         const algset = JSON.parse(localStorage.getItem("algset"));
         if (algset) {
             const algs = JSON.parse(algset.selectedAlgs);
@@ -66,7 +66,7 @@ const Trainer = () => {
                 if (algs.length > 0) {
                     const index = Math.floor(Math.random() * algs.length);
                     setAlg(algs[index]);
-                    const generatedScramble = generateScramble(
+                    const generatedScramble = await generateScramble(
                         algs[index].alg,
                         AUF,
                         cn
@@ -344,20 +344,6 @@ const Trainer = () => {
                     />
                     <label className="text-xl">Hide Case</label>
                 </div>
-                <button
-                    className="text-center text-xl underline text-red-500"
-                    onClick={() => {
-                        const algset = JSON.parse(
-                            localStorage.getItem("algset")
-                        );
-                        algset.times = JSON.stringify([]);
-                        localStorage.setItem("algset", JSON.stringify(algset));
-                        saveAlgset(JSON.parse(localStorage.getItem("algset")));
-                        window.location.reload();
-                    }}
-                >
-                    Delete All Times
-                </button>
             </div>
         </div>
     );

@@ -3,14 +3,19 @@ import Table from "./components/Table/Table";
 import Trainer from "./components/Trainer/Trainer";
 import TableMobile from "./components/Table/TableMobile";
 import TrainerMobile from "./components/Trainer/TrainerMobile";
+import Welcome from "./components/Welcome";
 
 const App = () => {
     const [view, setView] = useState("Algs");
+    const [open, setOpen] = useState(false);
 
     useEffect(() => {
-        const savedView = localStorage.getItem("view");
-        if (savedView) {
-            setView(savedView);
+        if (localStorage.getItem("view")) {
+            localStorage.clear();
+            window.location.reload();
+        }
+        if (!localStorage.getItem("algsets")) {
+            setOpen(true);
         }
     }, []);
 
@@ -25,7 +30,6 @@ const App = () => {
                     }`}
                     onClick={() => {
                         setView("Algs");
-                        localStorage.setItem("view", "Algs");
                     }}
                 >
                     Algs
@@ -38,7 +42,6 @@ const App = () => {
                     }`}
                     onClick={() => {
                         setView("Trainer");
-                        localStorage.setItem("view", "Trainer");
                     }}
                 >
                     Trainer
@@ -55,6 +58,7 @@ const App = () => {
                     <Trainer />
                 </>
             )}
+            <Welcome open={open} onClose={() => setOpen(false)} />
         </div>
     );
 };

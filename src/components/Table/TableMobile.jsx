@@ -33,8 +33,23 @@ const TableMobile = () => {
 
     const handleSortChange = (value, algData) => {
         switch (value) {
-            case "Name":
-                algData.sort((a, b) => a.name.localeCompare(b.name));
+            case "Name (A-Z)":
+                algData.sort((a, b) => {
+                    if (isNaN(a.name) || isNaN(b.name)) {
+                        return a.name.localeCompare(b.name); // Compare alphabetically if not numbers
+                    } else {
+                        return parseFloat(a.name) - parseFloat(b.name); // Compare numerically if numbers
+                    }
+                });
+                break;
+            case "Name (Z-A)":
+                algData.sort((a, b) => {
+                    if (isNaN(a.name) || isNaN(b.name)) {
+                        return b.name.localeCompare(a.name); // Compare alphabetically if not numbers
+                    } else {
+                        return parseFloat(b.name) - parseFloat(a.name); // Compare numerically if numbers
+                    }
+                });
                 break;
             case "Shortest":
                 algData.sort((a, b) => a.name.localeCompare(b.name));
@@ -45,10 +60,16 @@ const TableMobile = () => {
                 algData.sort((a, b) => b.alg.length - a.alg.length);
                 break;
             case "Best Time":
-                sortByTime(algData, "best");
+                sortByTime(algData, "best", "best");
                 break;
-            case "Avg. Time":
-                sortByTime(algData, "avg");
+            case "Best Avg.":
+                sortByTime(algData, "avg", "best");
+                break;
+            case "Worst Time":
+                sortByTime(algData, "best", "worst");
+                break;
+            case "Worst Avg.":
+                sortByTime(algData, "avg", "worst");
                 break;
         }
         setData(algData);

@@ -5,6 +5,7 @@ import "cubing/twisty";
 const CasePanel = ({ scramble }) => {
     const [use3D, setUse3D] = useState();
     const [hideCase, setHideCase] = useState();
+    const [puzzle, setPuzzle] = useState("3x3x3");
 
     useEffect(() => {
         if (JSON.parse(localStorage.getItem("settings"))) {
@@ -13,6 +14,12 @@ const CasePanel = ({ scramble }) => {
         } else {
             setUse3D(true);
             setHideCase(false);
+        }
+        const algset = JSON.parse(localStorage.getItem("algset"));
+        if (algset) {
+            if (algset.puzzle === "2x2") {
+                setPuzzle("2x2x2");
+            }
         }
     });
 
@@ -34,6 +41,7 @@ const CasePanel = ({ scramble }) => {
                                         visualization="PG3D"
                                         control-panel="none"
                                         background="none"
+                                        puzzle={puzzle}
                                         experimental-setup-alg={
                                             "z2 " + scramble
                                         }
@@ -49,6 +57,7 @@ const CasePanel = ({ scramble }) => {
                                     <twisty-player
                                         id="main-player"
                                         class="cube"
+                                        puzzle={puzzle}
                                         visualization="PG3D"
                                         control-panel="none"
                                         background="none"
@@ -71,9 +80,13 @@ const CasePanel = ({ scramble }) => {
                         ) : (
                             <div className="lg:w-full w-48 flex justify-center items-center">
                                 <img
-                                    src={`https://cubiclealgdbimagegen.azurewebsites.net/generator?&puzzle=3&size=200&alg=${
-                                        "y2 " + scramble
-                                    }`}
+                                    src={`https://cubiclealgdbimagegen.azurewebsites.net/generator?&puzzle=${
+                                        JSON.parse(
+                                            localStorage.getItem("algset")
+                                        ).puzzle === "3x3"
+                                            ? "3"
+                                            : "2"
+                                    }&size=200&alg=${"y2 " + scramble}`}
                                     alt="case"
                                     className="w-[75%]"
                                 />

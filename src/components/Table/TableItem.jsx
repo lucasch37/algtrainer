@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import convertAlg from "../../util/convertAlg";
 import formatTime from "../../util/formatTime";
 
-const TableItem = ({ data }) => {
+const TableItem = ({ data, sortBy }) => {
     const [bestTime, setBestTime] = useState("-");
     const [avgTime, setAvgTime] = useState("-");
     const [times, setTimes] = useState([]);
@@ -14,6 +14,7 @@ const TableItem = ({ data }) => {
         if (algset) {
             const timeData = JSON.parse(algset.times);
             if (timeData) {
+                setTimes([]);
                 for (let i = 0; i < timeData.length; i++) {
                     if (timeData[i].name === data.name) {
                         setTimes((prev) => [...prev, timeData[i]]);
@@ -26,7 +27,7 @@ const TableItem = ({ data }) => {
                 setHighlighting(settings[1]);
             }
         }
-    }, []);
+    }, [sortBy]);
 
     useEffect(() => {
         if (times.length > 0) {
@@ -48,9 +49,14 @@ const TableItem = ({ data }) => {
             <td className="border border-gray-600 text-center">{data.name}</td>
             <td className="border border-gray-600">
                 <img
-                    src={`https://cubiclealgdbimagegen.azurewebsites.net/generator?&puzzle=3&size=200&view=${
-                        view === "Planted" && "plan"
-                    }${highlighting === "OLL" ? "&stage=oll" : ""}${
+                    src={`https://cubiclealgdbimagegen.azurewebsites.net/generator?&puzzle=${
+                        JSON.parse(localStorage.getItem("algset")).puzzle ===
+                        "3x3"
+                            ? "3"
+                            : "2"
+                    }&size=200&view=${view === "Planted" && "plan"}${
+                        highlighting === "OLL" ? "&stage=oll" : ""
+                    }${
                         highlighting === "F2L" ? "&stage=f2l" : ""
                     }&case=${convertAlg(data.alg)}`}
                     alt={data.name}

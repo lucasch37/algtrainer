@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { AiFillQuestionCircle, AiOutlinePlus } from "react-icons/ai";
 import { IoIosSettings } from "react-icons/io";
-import { FaFolderOpen } from "react-icons/fa";
+import { FaFolderOpen, FaSortDown, FaSortUp } from "react-icons/fa";
+import { BiSolidDownArrow, BiSolidUpArrow } from "react-icons/bi";
 import AddAlgs from "./AddAlgs";
 import TableItem from "./TableItem";
 import Settings from "./Settings";
 import About from "./About";
 import sortByTime from "../../util/sortByTime";
 import Algsets from "./Algsets";
+import saveAlgset from "../../util/saveAlgset";
+import solve2x2 from "../../util/solve2x2";
+import { Alg } from "cubing/alg";
 
 const Table = () => {
     const [showAddMenu, setShowAddMenu] = useState(false);
@@ -15,6 +19,7 @@ const Table = () => {
     const [showAbout, setShowAbout] = useState(false);
     const [data, setData] = useState([]);
     const [showAlgsets, setShowAlgsets] = useState(false);
+    const [sortBy, setSortBy] = useState("Custom");
 
     useEffect(() => {
         const algset = JSON.parse(localStorage.getItem("algset"));
@@ -31,10 +36,38 @@ const Table = () => {
         }
     }, []);
 
+    const handleSaveSort = (sortBy) => {
+        if (localStorage.getItem("algset")) {
+            const algset = JSON.parse(localStorage.getItem("algset"));
+            const settings = JSON.parse(algset.settings);
+            settings[2] = sortBy;
+            algset.settings = JSON.stringify(settings);
+            localStorage.setItem("algset", JSON.stringify(algset));
+            saveAlgset(JSON.parse(localStorage.getItem("algset")));
+        }
+    };
+
     const handleSortChange = (value, algData) => {
+        handleSaveSort(value);
+        setSortBy(value);
         switch (value) {
-            case "Name":
-                algData.sort((a, b) => a.name.localeCompare(b.name));
+            case "Name (A-Z)":
+                algData.sort((a, b) => {
+                    if (isNaN(a.name) || isNaN(b.name)) {
+                        return a.name.localeCompare(b.name); // Compare alphabetically if not numbers
+                    } else {
+                        return parseFloat(a.name) - parseFloat(b.name); // Compare numerically if numbers
+                    }
+                });
+                break;
+            case "Name (Z-A)":
+                algData.sort((a, b) => {
+                    if (isNaN(a.name) || isNaN(b.name)) {
+                        return b.name.localeCompare(a.name); // Compare alphabetically if not numbers
+                    } else {
+                        return parseFloat(b.name) - parseFloat(a.name); // Compare numerically if numbers
+                    }
+                });
                 break;
             case "Shortest":
                 algData.sort((a, b) => a.name.localeCompare(b.name));
@@ -45,10 +78,16 @@ const Table = () => {
                 algData.sort((a, b) => b.alg.length - a.alg.length);
                 break;
             case "Best Time":
-                sortByTime(algData, "best");
+                sortByTime(algData, "best", "best");
                 break;
-            case "Avg. Time":
-                sortByTime(algData, "avg");
+            case "Best Avg.":
+                sortByTime(algData, "avg", "best");
+                break;
+            case "Worst Time":
+                sortByTime(algData, "best", "worst");
+                break;
+            case "Worst Avg.":
+                sortByTime(algData, "avg", "worst");
                 break;
         }
         setData(algData);
@@ -101,17 +140,197 @@ const Table = () => {
                     <table className="bg-gray-700 w-[95vw]">
                         <thead>
                             <tr className="bg-gray-800 rounded-t-xl lg:text-xl">
-                                <th className="w-[10%] p-2">Name</th>
+                                <th className="w-[10%] p-2">
+                                    <div className="flex justify-center items-center">
+                                        Name
+                                        <div className="text-xxs ml-2">
+                                            <BiSolidUpArrow
+                                                className={`${
+                                                    sortBy === "Name (Z-A)"
+                                                        ? "opacity-0"
+                                                        : "cursor-pointer"
+                                                }`}
+                                                onClick={() =>
+                                                    handleSortChange(
+                                                        "Name (Z-A)",
+                                                        JSON.parse(
+                                                            JSON.parse(
+                                                                localStorage.getItem(
+                                                                    "algset"
+                                                                )
+                                                            ).algs
+                                                        )
+                                                    )
+                                                }
+                                            />
+                                            <BiSolidDownArrow
+                                                className={`${
+                                                    sortBy === "Name (A-Z)"
+                                                        ? "opacity-0"
+                                                        : "cursor-pointer"
+                                                }`}
+                                                onClick={() =>
+                                                    handleSortChange(
+                                                        "Name (A-Z)",
+                                                        JSON.parse(
+                                                            JSON.parse(
+                                                                localStorage.getItem(
+                                                                    "algset"
+                                                                )
+                                                            ).algs
+                                                        )
+                                                    )
+                                                }
+                                            />
+                                        </div>
+                                    </div>
+                                </th>
                                 <th className="w-[10%] p-2">Case</th>
-                                <th className="w-[60%] p-2">Algorithm</th>
-                                <th className="w-[10%] p-2">Best</th>
-                                <th className="w-[10%] p-2">Avg.</th>
+                                <th className="w-[60%] p-2">
+                                    <div className="flex justify-center items-center">
+                                        Algorithm
+                                        <div className="text-xxs ml-2">
+                                            <BiSolidUpArrow
+                                                className={`${
+                                                    sortBy === "Longest"
+                                                        ? "opacity-0"
+                                                        : "cursor-pointer"
+                                                }`}
+                                                onClick={() =>
+                                                    handleSortChange(
+                                                        "Longest",
+                                                        JSON.parse(
+                                                            JSON.parse(
+                                                                localStorage.getItem(
+                                                                    "algset"
+                                                                )
+                                                            ).algs
+                                                        )
+                                                    )
+                                                }
+                                            />
+                                            <BiSolidDownArrow
+                                                className={`${
+                                                    sortBy === "Shortest"
+                                                        ? "opacity-0"
+                                                        : "cursor-pointer"
+                                                }`}
+                                                onClick={() =>
+                                                    handleSortChange(
+                                                        "Shortest",
+                                                        JSON.parse(
+                                                            JSON.parse(
+                                                                localStorage.getItem(
+                                                                    "algset"
+                                                                )
+                                                            ).algs
+                                                        )
+                                                    )
+                                                }
+                                            />
+                                        </div>
+                                    </div>
+                                </th>
+                                <th className="w-[10%] p-2">
+                                    <div className="flex justify-center items-center">
+                                        Best
+                                        <div className="text-xxs ml-2">
+                                            <BiSolidUpArrow
+                                                className={`${
+                                                    sortBy === "Worst Time"
+                                                        ? "opacity-0"
+                                                        : "cursor-pointer"
+                                                }`}
+                                                onClick={() =>
+                                                    handleSortChange(
+                                                        "Worst Time",
+                                                        JSON.parse(
+                                                            JSON.parse(
+                                                                localStorage.getItem(
+                                                                    "algset"
+                                                                )
+                                                            ).algs
+                                                        )
+                                                    )
+                                                }
+                                            />
+                                            <BiSolidDownArrow
+                                                className={`${
+                                                    sortBy === "Best Time"
+                                                        ? "opacity-0"
+                                                        : "cursor-pointer"
+                                                }`}
+                                                onClick={() =>
+                                                    handleSortChange(
+                                                        "Best Time",
+                                                        JSON.parse(
+                                                            JSON.parse(
+                                                                localStorage.getItem(
+                                                                    "algset"
+                                                                )
+                                                            ).algs
+                                                        )
+                                                    )
+                                                }
+                                            />
+                                        </div>
+                                    </div>
+                                </th>
+                                <th className="w-[10%] p-2">
+                                    <div className="flex justify-center items-center">
+                                        Avg.
+                                        <div className="text-xxs ml-2">
+                                            <BiSolidUpArrow
+                                                className={`${
+                                                    sortBy === "Worst Avg."
+                                                        ? "opacity-0"
+                                                        : "cursor-pointer"
+                                                }`}
+                                                onClick={() =>
+                                                    handleSortChange(
+                                                        "Worst Avg.",
+                                                        JSON.parse(
+                                                            JSON.parse(
+                                                                localStorage.getItem(
+                                                                    "algset"
+                                                                )
+                                                            ).algs
+                                                        )
+                                                    )
+                                                }
+                                            />
+                                            <BiSolidDownArrow
+                                                className={`${
+                                                    sortBy === "Best Avg."
+                                                        ? "opacity-0"
+                                                        : "cursor-pointer"
+                                                }`}
+                                                onClick={() =>
+                                                    handleSortChange(
+                                                        "Best Avg.",
+                                                        JSON.parse(
+                                                            JSON.parse(
+                                                                localStorage.getItem(
+                                                                    "algset"
+                                                                )
+                                                            ).algs
+                                                        )
+                                                    )
+                                                }
+                                            />
+                                        </div>
+                                    </div>
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
                             {data.length > 0 ? (
                                 data.map((data, index) => (
-                                    <TableItem key={index} data={data} />
+                                    <TableItem
+                                        key={index}
+                                        data={data}
+                                        sortBy={sortBy}
+                                    />
                                 ))
                             ) : (
                                 <tr>

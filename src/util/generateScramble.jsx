@@ -1,7 +1,9 @@
+import { Alg } from "cubing/alg";
 import convertAlg from "./convertAlg";
 import min2phase from "./min2phase";
+import solve2x2 from "./solve2x2";
 
-const generateScramble = (alg, useAUF, cn) => {
+const generateScramble = async (alg, useAUF, cn) => {
     let newAlg = convertAlg(alg);
     if (useAUF) {
         const AUF = Math.floor(Math.random() * 4);
@@ -33,9 +35,18 @@ const generateScramble = (alg, useAUF, cn) => {
                 break;
         }
     }
-    var cube = min2phase.fromScramble(newAlg);
-    min2phase.initFull();
-    var solution = min2phase.solve(cube);
+    const algset = JSON.parse(localStorage.getItem("algset"));
+    let solution;
+    if (algset) {
+        if (algset.puzzle === "2x2") {
+            const convertedAlg = new Alg(newAlg);
+            solution = await solve2x2(convertedAlg);
+        } else {
+            var cube = min2phase.fromScramble(newAlg);
+            min2phase.initFull();
+            solution = min2phase.solve(cube);
+        }
+    }
     if (cn) {
         const xRotation = Math.floor(Math.random() * 4);
         const yRotation = Math.floor(Math.random() * 4);

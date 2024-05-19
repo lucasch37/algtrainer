@@ -41,7 +41,7 @@ const Settings = ({ open, onClose }) => {
                 setSortBy(settings[2]);
             }
         }
-    }, []);
+    }, [open]);
 
     return (
         <Popup open={open}>
@@ -116,11 +116,22 @@ const Settings = ({ open, onClose }) => {
                                     }
                                 >
                                     <option value="Custom">Custom</option>
-                                    <option value="Name">Name</option>
+                                    <option value="Name (A-Z)">
+                                        Name (A-Z)
+                                    </option>
+                                    <option value="Name (Z-A)">
+                                        Name (Z-A)
+                                    </option>
                                     <option value="Shortest">Shortest</option>
                                     <option value="Longest">Longest</option>
                                     <option value="Best Time">Best Time</option>
-                                    <option value="Avg. Time">Avg. Time</option>
+                                    <option value="Best Avg.">Best Avg.</option>
+                                    <option value="Worst Time">
+                                        Worst Time
+                                    </option>
+                                    <option value="Worst Avg.">
+                                        Worst Avg.
+                                    </option>
                                 </select>
                             </div>
                         </div>
@@ -129,10 +140,66 @@ const Settings = ({ open, onClose }) => {
                                 Reset:
                             </div>
                             <div
-                                className="lg:text-base text-red-500 underline ml-2 cursor-pointer"
+                                className="lg:text-base text-xs text-red-500 underline ml-2 cursor-pointer"
                                 onClick={() => {
-                                    localStorage.clear();
-                                    window.location.reload();
+                                    if (confirm("Reset all times?")) {
+                                        const algset = JSON.parse(
+                                            localStorage.getItem("algset")
+                                        );
+                                        algset.times = JSON.stringify([]);
+                                        localStorage.setItem(
+                                            "algset",
+                                            JSON.stringify(algset)
+                                        );
+                                        saveAlgset(
+                                            JSON.parse(
+                                                localStorage.getItem("algset")
+                                            )
+                                        );
+                                        window.location.reload();
+                                    }
+                                }}
+                            >
+                                Reset Times
+                            </div>
+                            <div
+                                className="lg:text-base text-xs text-red-500 underline ml-2 cursor-pointer"
+                                onClick={() => {
+                                    if (confirm("Reset algset?")) {
+                                        const algset = {
+                                            name: JSON.parse(
+                                                localStorage.getItem("algset")
+                                            ).name,
+                                            algs: JSON.stringify([]),
+                                            selectedAlgs: JSON.stringify([]),
+                                            times: JSON.stringify([]),
+                                            algText: "",
+                                            settings: JSON.stringify([
+                                                "Planted",
+                                                "All",
+                                                "Custom",
+                                            ]),
+                                            puzzle: JSON.parse(
+                                                localStorage.getItem("algset")
+                                            ).puzzle,
+                                        };
+                                        localStorage.setItem(
+                                            "algset",
+                                            JSON.stringify(algset)
+                                        );
+                                        window.location.reload();
+                                    }
+                                }}
+                            >
+                                Reset Algset
+                            </div>
+                            <div
+                                className="lg:text-base text-xs text-red-500 underline ml-2 cursor-pointer"
+                                onClick={() => {
+                                    if (confirm("Reset everything?")) {
+                                        localStorage.clear();
+                                        window.location.reload();
+                                    }
                                 }}
                             >
                                 Reset Everything

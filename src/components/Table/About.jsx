@@ -9,7 +9,7 @@ const About = ({ open, onClose }) => {
                 <div className="lg:text-3xl text-xl p-4 font-semibold ">
                     About
                 </div>
-                <div className="bg-gray-700 lg:h-[320px] h-[60vh] flex overflow-y-scroll">
+                <div className="bg-gray-700 lg:h-fit h-[60vh] flex overflow-y-scroll">
                     <div className="px-4 py-3">
                         <div className="font-bold text-xl">About</div>
                         <div>
@@ -83,8 +83,32 @@ const About = ({ open, onClose }) => {
                                 second
                             </li>
                         </ul>
-                        <div className="text-xl font-bold mt-4">Changelog</div>
+                        {/* <div className="text-xl font-bold mt-4">Changelog</div>
                         <ul className="ml-4 list-disc pb-2">
+                            <li>
+                                Version 1.2 (May 18, 2024)
+                                <ul className="list-disc list-inside ml-2">
+                                    <li>Fixed several bugs</li>
+                                    <li>
+                                        Added algsets!{" "}
+                                        <ul className="ml-4 list-disc list-inside text-sm">
+                                            <li>
+                                                Allow for better organizing of
+                                                algs
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>Added support for 2x2</li>
+                                    <li>
+                                        Added more sorting options (best time,
+                                        avg time, and more)
+                                    </li>
+                                    <li>
+                                        Added arrows on table to make sorting
+                                        easier
+                                    </li>
+                                </ul>
+                            </li>
                             <li>
                                 Version 1.1 (May 5, 2024)
                                 <ul className="list-disc list-inside ml-2">
@@ -106,7 +130,7 @@ const About = ({ open, onClose }) => {
                                     <li>Released</li>
                                 </ul>
                             </li>
-                        </ul>
+                        </ul> */}
                     </div>
                 </div>
                 <div className="h-fit py-2 bg-gray-700 flex justify-end items-center border-t border-gray-400">

@@ -50,9 +50,14 @@ const TableItemMobile = ({ data }) => {
             </div>
             <div className="flex items-center h-[68%] overflow-hidden">
                 <img
-                    src={`https://cubiclealgdbimagegen.azurewebsites.net/generator?&puzzle=3&size=200&view=${
-                        view === "Planted" && "plan"
-                    }${highlighting === "OLL" ? "&stage=oll" : ""}${
+                    src={`https://cubiclealgdbimagegen.azurewebsites.net/generator?&puzzle=${
+                        JSON.parse(localStorage.getItem("algset")).puzzle ===
+                        "3x3"
+                            ? "3"
+                            : "2"
+                    }&size=200&view=${view === "Planted" && "plan"}${
+                        highlighting === "OLL" ? "&stage=oll" : ""
+                    }${
                         highlighting === "F2L" ? "&stage=f2l" : ""
                     }&case=${convertAlg(data.alg)}`}
                     alt={data.name}
