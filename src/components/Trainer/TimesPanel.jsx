@@ -2,15 +2,22 @@ import React, { useEffect, useRef, useState } from "react";
 import formatTime from "../../util/formatTime";
 import { IoArrowBackOutline } from "react-icons/io5";
 import { AiOutlineClose } from "react-icons/ai";
-import convertAlg from "../../util/convertAlg";
 
 const TimesPanel = ({ times, setSavedTimes }) => {
     const [selectedTime, setSelectedTime] = useState();
+    const [algset, setAlgset] = useState(null);
 
     const bottomRef = useRef(null);
     const scrollToBottom = () => {
         bottomRef.current?.scrollIntoView({ behavior: "smooth" });
     };
+
+    useEffect(() => {
+        const algset = JSON.parse(localStorage.getItem("algset"));
+        if (algset) {
+            setAlgset(algset);
+        }
+    }, []);
 
     useEffect(() => {
         setTimeout(() => {
@@ -23,7 +30,7 @@ const TimesPanel = ({ times, setSavedTimes }) => {
         updatedTimes.splice(times.indexOf(time), 1);
         setSavedTimes(updatedTimes);
         const algset = JSON.parse(localStorage.getItem("algset"));
-        algset.times = JSON.stringify(updatedTimes);
+        algset.times = updatedTimes;
         localStorage.setItem("algset", JSON.stringify(algset));
         setSelectedTime();
     };
@@ -61,10 +68,7 @@ const TimesPanel = ({ times, setSavedTimes }) => {
                     <div className="flex flex-col lg:items-stretch items-center lg:flex-row lg:flex-grow m-2 mt-1">
                         <img
                             src={`https://cubiclealgdbimagegen.azurewebsites.net/generator?&puzzle=${
-                                JSON.parse(localStorage.getItem("algset"))
-                                    .puzzle === "3x3"
-                                    ? "3"
-                                    : "2"
+                                algset.puzzle === "3x3" ? "3" : "2"
                             }&size=200&alg=${"y2 " + selectedTime.scramble}`}
                             alt={selectedTime.name}
                             className="w-[40%] border-2 border-gray-400 rounded-xl mr-2"

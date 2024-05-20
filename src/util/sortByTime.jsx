@@ -1,7 +1,7 @@
 const sortByTime = (algs, sortBy, order) => {
     const algset = JSON.parse(localStorage.getItem("algset"));
     if (algset) {
-        const timeData = JSON.parse(algset.times);
+        const timeData = algset.times;
         if (timeData) {
             const bestTimes = [];
             for (let i = 0; i < algs.length; i++) {

@@ -20,13 +20,12 @@ const TableMobile = () => {
         const algset = JSON.parse(localStorage.getItem("algset"));
         if (algset) {
             const algData = algset.algs;
-            const settings = JSON.parse(algset.settings);
+            const settings = algset.settings;
             if (algData) {
-                const algDataParsed = JSON.parse(algData);
-                setData(algDataParsed);
+                setData(algData);
             }
             if (settings.length > 0) {
-                handleSortChange(settings[2], JSON.parse(algData));
+                handleSortChange(settings[2], algData);
             }
         }
     }, []);

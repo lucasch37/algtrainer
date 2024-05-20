@@ -24,7 +24,7 @@ const Settings = ({ open, onClose }) => {
         if (localStorage.getItem("algset")) {
             const settings = [image, highlighting, sortBy];
             const algset = JSON.parse(localStorage.getItem("algset"));
-            algset.settings = JSON.stringify(settings);
+            algset.settings = settings;
             localStorage.setItem("algset", JSON.stringify(algset));
             saveAlgset(JSON.parse(localStorage.getItem("algset")));
         }
@@ -34,8 +34,8 @@ const Settings = ({ open, onClose }) => {
     useEffect(() => {
         if (localStorage.getItem("algset")) {
             const algset = JSON.parse(localStorage.getItem("algset"));
-            if (JSON.parse(algset.settings).length > 0) {
-                const settings = JSON.parse(algset.settings);
+            if (algset.settings.length > 0) {
+                const settings = algset.settings;
                 setImage(settings[0]);
                 setHighlighting(settings[1]);
                 setSortBy(settings[2]);
@@ -146,7 +146,7 @@ const Settings = ({ open, onClose }) => {
                                         const algset = JSON.parse(
                                             localStorage.getItem("algset")
                                         );
-                                        algset.times = JSON.stringify([]);
+                                        algset.times = [];
                                         localStorage.setItem(
                                             "algset",
                                             JSON.stringify(algset)
@@ -170,15 +170,15 @@ const Settings = ({ open, onClose }) => {
                                             name: JSON.parse(
                                                 localStorage.getItem("algset")
                                             ).name,
-                                            algs: JSON.stringify([]),
-                                            selectedAlgs: JSON.stringify([]),
-                                            times: JSON.stringify([]),
+                                            algs: [],
+                                            selectedAlgs: [],
+                                            times: [],
                                             algText: "",
-                                            settings: JSON.stringify([
+                                            settings: [
                                                 "Planted",
                                                 "All",
                                                 "Custom",
-                                            ]),
+                                            ],
                                             puzzle: JSON.parse(
                                                 localStorage.getItem("algset")
                                             ).puzzle,
@@ -187,6 +187,7 @@ const Settings = ({ open, onClose }) => {
                                             "algset",
                                             JSON.stringify(algset)
                                         );
+                                        saveAlgset(algset);
                                         window.location.reload();
                                     }
                                 }}
@@ -217,12 +218,8 @@ const Settings = ({ open, onClose }) => {
                                     const algset = JSON.parse(
                                         localStorage.getItem("algset")
                                     );
-                                    if (
-                                        JSON.parse(algset.settings).length > 0
-                                    ) {
-                                        const settings = JSON.parse(
-                                            algset.settings
-                                        );
+                                    if (algset.settings.length > 0) {
+                                        const settings = algset.settings;
                                         setImage(settings[0]);
                                         setHighlighting(settings[1]);
                                         setHighlighting(settings[2]);

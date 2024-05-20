@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from "react";
 import Popup from "../Popup";
-import convertAlg from "../../util/convertAlg";
 import saveAlgset from "../../util/saveAlgset";
 
-const Alg = ({ alg, state, setSelectedAlgs, setCount, open }) => {
+const Alg = ({ alg, state, setSelectedAlgs, setCount, open, puzzle }) => {
     const [selected, setSelected] = useState(true);
     const [view, setView] = useState("Planted");
     const [highlighting, setHighlighting] = useState("All");
 
     useEffect(() => {
         const parsedSelAlgs = JSON.parse(
-            JSON.parse(localStorage.getItem("algset")).selectedAlgs
-        );
+            localStorage.getItem("algset")
+        ).selectedAlgs;
         if (parsedSelAlgs) {
             const selAlgs = parsedSelAlgs.map((alg) => alg.name);
             if (selAlgs.indexOf(alg.name) !== -1) {
@@ -55,8 +54,8 @@ const Alg = ({ alg, state, setSelectedAlgs, setCount, open }) => {
     useEffect(() => {
         const algset = JSON.parse(localStorage.getItem("algset"));
         if (algset) {
-            setView(JSON.parse(algset.settings)[0]);
-            setHighlighting(JSON.parse(algset.settings)[1]);
+            setView(algset.settings[0]);
+            setHighlighting(algset.settings[1]);
         }
     }, []);
 
@@ -70,14 +69,12 @@ const Alg = ({ alg, state, setSelectedAlgs, setCount, open }) => {
             {alg.name}
             <img
                 src={`https://cubiclealgdbimagegen.azurewebsites.net/generator?&puzzle=${
-                    JSON.parse(localStorage.getItem("algset")).puzzle === "3x3"
-                        ? "3"
-                        : "2"
+                    puzzle === "3x3" ? "3" : "2"
                 }&size=200&view=${view === "Planted" && "plan"}${
                     highlighting === "OLL" ? "&stage=oll" : ""
-                }${
-                    highlighting === "F2L" ? "&stage=f2l" : ""
-                }&case=${convertAlg(alg.alg)}`}
+                }${highlighting === "F2L" ? "&stage=f2l" : ""}&case=${
+                    alg.convertedAlg
+                }`}
                 alt={alg.name}
                 className="w-20"
             />
@@ -88,17 +85,27 @@ const Alg = ({ alg, state, setSelectedAlgs, setCount, open }) => {
 const SelectTimes = ({ open, onClose }) => {
     const [state, setState] = useState(true);
     const [selectedAlgs, setSelectedAlgs] = useState([]);
+    const [algs, setAlgs] = useState([]);
+    const [puzzle, setPuzzle] = useState("3x3");
     const [count, setCount] = useState(0);
 
     const handleSave = () => {
         const algset = JSON.parse(localStorage.getItem("algset"));
         if (algset) {
-            algset.selectedAlgs = JSON.stringify(selectedAlgs);
+            algset.selectedAlgs = selectedAlgs;
             localStorage.setItem("algset", JSON.stringify(algset));
             saveAlgset(JSON.parse(localStorage.getItem("algset")));
         }
         window.location.reload();
     };
+
+    useEffect(() => {
+        const algset = JSON.parse(localStorage.getItem("algset"));
+        if (algset) {
+            setAlgs(algset.algs);
+            setPuzzle(algset.puzzle);
+        }
+    }, []);
 
     return (
         <Popup open={open}>
@@ -138,23 +145,17 @@ const SelectTimes = ({ open, onClose }) => {
                             </button>
                         </div>
                         <div className="flex flex-wrap justify-center pb-2">
-                            {JSON.parse(localStorage.getItem("algset")) ? (
-                                JSON.parse(
-                                    JSON.parse(localStorage.getItem("algset"))
-                                        .algs
-                                ).map((alg, index) => (
-                                    <Alg
-                                        alg={alg}
-                                        key={index}
-                                        state={state}
-                                        setSelectedAlgs={setSelectedAlgs}
-                                        setCount={setCount}
-                                        open={open}
-                                    />
-                                ))
-                            ) : (
-                                <div></div>
-                            )}
+                            {algs.map((alg, index) => (
+                                <Alg
+                                    alg={alg}
+                                    key={index}
+                                    state={state}
+                                    setSelectedAlgs={setSelectedAlgs}
+                                    setCount={setCount}
+                                    open={open}
+                                    puzzle={puzzle}
+                                />
+                            ))}
                         </div>
                     </div>
                 </div>

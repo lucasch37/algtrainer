@@ -10,8 +10,6 @@ import About from "./About";
 import sortByTime from "../../util/sortByTime";
 import Algsets from "./Algsets";
 import saveAlgset from "../../util/saveAlgset";
-import solve2x2 from "../../util/solve2x2";
-import { Alg } from "cubing/alg";
 
 const Table = () => {
     const [showAddMenu, setShowAddMenu] = useState(false);
@@ -25,13 +23,12 @@ const Table = () => {
         const algset = JSON.parse(localStorage.getItem("algset"));
         if (algset) {
             const algData = algset.algs;
-            const settings = JSON.parse(algset.settings);
+            const settings = algset.settings;
             if (algData) {
-                const algDataParsed = JSON.parse(algData);
-                setData(algDataParsed);
+                setData(algData);
             }
             if (settings.length > 0) {
-                handleSortChange(settings[2], JSON.parse(algData));
+                handleSortChange(settings[2], algData);
             }
         }
     }, []);
@@ -39,11 +36,9 @@ const Table = () => {
     const handleSaveSort = (sortBy) => {
         if (localStorage.getItem("algset")) {
             const algset = JSON.parse(localStorage.getItem("algset"));
-            const settings = JSON.parse(algset.settings);
-            settings[2] = sortBy;
-            algset.settings = JSON.stringify(settings);
+            algset.settings[2] = sortBy;
             localStorage.setItem("algset", JSON.stringify(algset));
-            saveAlgset(JSON.parse(localStorage.getItem("algset")));
+            saveAlgset(algset);
         }
     };
 
@@ -153,13 +148,12 @@ const Table = () => {
                                                 onClick={() =>
                                                     handleSortChange(
                                                         "Name (Z-A)",
+
                                                         JSON.parse(
-                                                            JSON.parse(
-                                                                localStorage.getItem(
-                                                                    "algset"
-                                                                )
-                                                            ).algs
-                                                        )
+                                                            localStorage.getItem(
+                                                                "algset"
+                                                            )
+                                                        ).algs
                                                     )
                                                 }
                                             />
@@ -172,13 +166,12 @@ const Table = () => {
                                                 onClick={() =>
                                                     handleSortChange(
                                                         "Name (A-Z)",
+
                                                         JSON.parse(
-                                                            JSON.parse(
-                                                                localStorage.getItem(
-                                                                    "algset"
-                                                                )
-                                                            ).algs
-                                                        )
+                                                            localStorage.getItem(
+                                                                "algset"
+                                                            )
+                                                        ).algs
                                                     )
                                                 }
                                             />
@@ -199,13 +192,12 @@ const Table = () => {
                                                 onClick={() =>
                                                     handleSortChange(
                                                         "Longest",
+
                                                         JSON.parse(
-                                                            JSON.parse(
-                                                                localStorage.getItem(
-                                                                    "algset"
-                                                                )
-                                                            ).algs
-                                                        )
+                                                            localStorage.getItem(
+                                                                "algset"
+                                                            )
+                                                        ).algs
                                                     )
                                                 }
                                             />
@@ -218,13 +210,12 @@ const Table = () => {
                                                 onClick={() =>
                                                     handleSortChange(
                                                         "Shortest",
+
                                                         JSON.parse(
-                                                            JSON.parse(
-                                                                localStorage.getItem(
-                                                                    "algset"
-                                                                )
-                                                            ).algs
-                                                        )
+                                                            localStorage.getItem(
+                                                                "algset"
+                                                            )
+                                                        ).algs
                                                     )
                                                 }
                                             />
@@ -244,13 +235,12 @@ const Table = () => {
                                                 onClick={() =>
                                                     handleSortChange(
                                                         "Worst Time",
+
                                                         JSON.parse(
-                                                            JSON.parse(
-                                                                localStorage.getItem(
-                                                                    "algset"
-                                                                )
-                                                            ).algs
-                                                        )
+                                                            localStorage.getItem(
+                                                                "algset"
+                                                            )
+                                                        ).algs
                                                     )
                                                 }
                                             />
@@ -263,13 +253,12 @@ const Table = () => {
                                                 onClick={() =>
                                                     handleSortChange(
                                                         "Best Time",
+
                                                         JSON.parse(
-                                                            JSON.parse(
-                                                                localStorage.getItem(
-                                                                    "algset"
-                                                                )
-                                                            ).algs
-                                                        )
+                                                            localStorage.getItem(
+                                                                "algset"
+                                                            )
+                                                        ).algs
                                                     )
                                                 }
                                             />
@@ -289,13 +278,12 @@ const Table = () => {
                                                 onClick={() =>
                                                     handleSortChange(
                                                         "Worst Avg.",
+
                                                         JSON.parse(
-                                                            JSON.parse(
-                                                                localStorage.getItem(
-                                                                    "algset"
-                                                                )
-                                                            ).algs
-                                                        )
+                                                            localStorage.getItem(
+                                                                "algset"
+                                                            )
+                                                        ).algs
                                                     )
                                                 }
                                             />
@@ -308,13 +296,12 @@ const Table = () => {
                                                 onClick={() =>
                                                     handleSortChange(
                                                         "Best Avg.",
+
                                                         JSON.parse(
-                                                            JSON.parse(
-                                                                localStorage.getItem(
-                                                                    "algset"
-                                                                )
-                                                            ).algs
-                                                        )
+                                                            localStorage.getItem(
+                                                                "algset"
+                                                            )
+                                                        ).algs
                                                     )
                                                 }
                                             />

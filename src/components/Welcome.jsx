@@ -33,11 +33,11 @@ const Welcome = ({ open, onClose }) => {
                 onClose();
                 const algset = {
                     name: text,
-                    algs: JSON.stringify([]),
-                    selectedAlgs: JSON.stringify([]),
-                    times: JSON.stringify([]),
+                    algs: [],
+                    selectedAlgs: [],
+                    times: [],
                     algText: "",
-                    settings: JSON.stringify(["Planted", "All", "Custom"]),
+                    settings: ["Planted", "All", "Custom"],
                     puzzle: puzzle,
                 };
                 localStorage.setItem("algset", JSON.stringify(algset));

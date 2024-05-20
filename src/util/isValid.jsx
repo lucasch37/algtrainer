@@ -59,7 +59,7 @@ const isValid = (text) => {
             }
         }
     }
-    if (algCount > 200) {
+    if (algCount > 1000) {
         return false;
     }
     if (checkQuotes || checkAlg) {

@@ -1,3 +1,5 @@
+import convertAlg from "./convertAlg";
+
 const saveAlgs = (text) => {
     const names = [];
     const algs = [];
@@ -22,14 +24,14 @@ const saveAlgs = (text) => {
         const data = {
             name: names[i],
             alg: algs[i],
+            convertedAlg: convertAlg(algs[i]),
         };
         algData.push(data);
     }
-    const algDataString = JSON.stringify(algData);
     if (localStorage.getItem("algset")) {
         const algset = JSON.parse(localStorage.getItem("algset"));
-        algset.algs = algDataString;
-        algset.selectedAlgs = algDataString;
+        algset.algs = algData;
+        algset.selectedAlgs = algData;
         algset.algText = text;
         localStorage.setItem("algset", JSON.stringify(algset));
         const algsets = JSON.parse(localStorage.getItem("algsets"));

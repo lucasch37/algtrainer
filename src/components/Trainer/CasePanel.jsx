@@ -81,11 +81,7 @@ const CasePanel = ({ scramble }) => {
                             <div className="lg:w-full w-48 flex justify-center items-center">
                                 <img
                                     src={`https://cubiclealgdbimagegen.azurewebsites.net/generator?&puzzle=${
-                                        JSON.parse(
-                                            localStorage.getItem("algset")
-                                        ).puzzle === "3x3"
-                                            ? "3"
-                                            : "2"
+                                        puzzle === "3x3x3" ? "3" : "2"
                                     }&size=200&alg=${"y2 " + scramble}`}
                                     alt="case"
                                     className="w-[75%]"

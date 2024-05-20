@@ -496,7 +496,7 @@ async function __wbg_init(input) {
                 throw e;
             }
             input = await (
-                await import(node_fs_promises_unmangled())
+                await import(/* @vite-ignore */ node_fs_promises_unmangled())
             ).readFile(input);
         }
     }

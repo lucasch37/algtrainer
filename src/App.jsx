@@ -14,8 +14,18 @@ const App = () => {
             localStorage.clear();
             window.location.reload();
         }
-        if (!localStorage.getItem("algsets")) {
+        const algsets = JSON.parse(localStorage.getItem("algsets"));
+        if (!algsets) {
             setOpen(true);
+        }
+        const algset = JSON.parse(localStorage.getItem("algset"));
+        if (algset) {
+            if (algset.algs[0]) {
+                if (!algset.algs[0].convertedAlg) {
+                    localStorage.clear();
+                    window.location.reload();
+                }
+            }
         }
     }, []);
 

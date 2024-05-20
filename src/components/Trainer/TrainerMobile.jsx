@@ -10,6 +10,7 @@ import TimerMobile from "./TimerMobile";
 import saveAlgset from "../../util/saveAlgset";
 
 const TrainerMobile = () => {
+    const [algset, setAlgset] = useState(null);
     const [view, setView] = useState("Timer");
     const [time, setTime] = useState(0);
     const [runTimer, setRunTimer] = useState(false);
@@ -66,7 +67,7 @@ const TrainerMobile = () => {
     const getScramble = async (AUF, cn) => {
         const algset = JSON.parse(localStorage.getItem("algset"));
         if (algset) {
-            const algs = JSON.parse(algset.selectedAlgs);
+            const algs = algset.selectedAlgs;
             if (algs) {
                 if (algs.length > 0) {
                     const index = Math.floor(Math.random() * algs.length);
@@ -87,21 +88,19 @@ const TrainerMobile = () => {
     };
 
     useEffect(() => {
-        if (localStorage.getItem("algset")) {
-            setSavedTimes(
-                JSON.parse(JSON.parse(localStorage.getItem("algset")).times)
-            );
+        const algset = JSON.parse(localStorage.getItem("algset"));
+        if (algset) {
+            setAlgset(algset);
+            setSavedTimes(algset.times);
         }
-        if (JSON.parse(localStorage.getItem("settings"))) {
-            setUse3D(JSON.parse(localStorage.getItem("settings"))[0]);
-            setUseAUF(JSON.parse(localStorage.getItem("settings"))[1]);
-            setShowAlg(JSON.parse(localStorage.getItem("settings"))[2]);
-            setCn(JSON.parse(localStorage.getItem("settings"))[3]);
-            setHideCase(JSON.parse(localStorage.getItem("settings"))[4]);
-            getScramble(
-                JSON.parse(localStorage.getItem("settings"))[1],
-                JSON.parse(localStorage.getItem("settings"))[3]
-            );
+        const settings = JSON.parse(localStorage.getItem("settings"));
+        if (settings) {
+            setUse3D(settings[0]);
+            setUseAUF(settings[1]);
+            setShowAlg(settings[2]);
+            setCn(settings[3]);
+            setHideCase(settings[4]);
+            getScramble(settings[1], settings[3]);
         } else {
             setUse3D(true);
             setUseAUF(true);
@@ -243,17 +242,9 @@ const TrainerMobile = () => {
                 <div className="w-[90vw] flex flex-col">
                     <div className="flex justify-center text-xl text-blue-400 cursor-pointer mb-2">
                         <div onClick={() => setShowSelectAlgs(true)}>
-                            {JSON.parse(localStorage.getItem("algset"))
-                                ? JSON.parse(
-                                      JSON.parse(localStorage.getItem("algset"))
-                                          .selectedAlgs
-                                  ).length
-                                : 0}{" "}
-                            {JSON.parse(localStorage.getItem("algset"))
-                                ? JSON.parse(
-                                      JSON.parse(localStorage.getItem("algset"))
-                                          .selectedAlgs
-                                  ).length !== 1
+                            {algset ? algset.selectedAlgs.length : 0}{" "}
+                            {algset
+                                ? algset.selectedAlgs.length !== 1
                                     ? "cases selected"
                                     : "case selected"
                                 : "cases selected"}

@@ -116,7 +116,7 @@ const Format = () => {
                     <div>R L U D F B M S E r l u d f b</div>
                 </div>
                 <ul className="list-disc">
-                    <li>Use a maximum of 200 algorithms</li>
+                    <li>Use a maximum of 1000 algorithms</li>
                     <li>
                         Almost any algorithm ranging from F2L, last layer,
                         blindfolded, FMC and more are usuable!

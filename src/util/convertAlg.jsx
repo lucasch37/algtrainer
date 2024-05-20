@@ -3,7 +3,7 @@
 const convertAlg = (alg) => {
     const moves = alg.split(" ");
     const rotationCases = ["x", "x'", "x2", "y", "y'", "y2", "z", "z'", "z2"];
-    for (let i = moves.length - 1; i >= 0; i--) {
+    for (let i = 0; i < moves.length; i++) {
         if (moves[i].length === 2) {
             const char1 = moves[i][0];
             if (moves[i][1] === "3") {
@@ -192,9 +192,6 @@ const convertAlg = (alg) => {
 };
 
 const changeMove = (alg, axis) => {
-    if (alg[0] === undefined) {
-        return alg;
-    }
     const x = ["F", "D", "B", "U"];
     const y = ["F", "R", "B", "L"];
     const z = ["R", "U", "L", "D"];

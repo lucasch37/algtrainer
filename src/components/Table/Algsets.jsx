@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Popup from "../Popup";
 import { AiOutlineClose, AiOutlinePlus } from "react-icons/ai";
-import convertAlg from "../../util/convertAlg.jsx";
-import saveAlgset from "../../util/saveAlgset.jsx";
 
 const CreateNewPopup = ({ open, onClose }) => {
     const [text, setText] = useState("");
@@ -36,11 +34,11 @@ const CreateNewPopup = ({ open, onClose }) => {
                 onClose();
                 const algset = {
                     name: text,
-                    algs: JSON.stringify([]),
-                    selectedAlgs: JSON.stringify([]),
-                    times: JSON.stringify([]),
+                    algs: [],
+                    selectedAlgs: [],
+                    times: [],
                     algText: "",
-                    settings: JSON.stringify(["Planted", "All", "Custom"]),
+                    settings: ["Planted", "All", "Custom"],
                     puzzle: puzzle,
                 };
                 localStorage.setItem("algset", JSON.stringify(algset));
@@ -166,10 +164,7 @@ const Algsets = ({ open, onClose }) => {
                 break;
             case "Size":
                 algsets.sort((a, b) => a.name.localeCompare(b.name));
-                algsets.sort(
-                    (a, b) =>
-                        JSON.parse(b.algs).length - JSON.parse(a.algs).length
-                );
+                algsets.sort((a, b) => b.algs.length - a.algs.length);
                 break;
         }
         setAlgsets(algsets);
@@ -252,13 +247,9 @@ const Algsets = ({ open, onClose }) => {
                                                     ? "3"
                                                     : "2"
                                             }&size=200&case=${
-                                                JSON.parse(algset.algs).length >
-                                                0
-                                                    ? convertAlg(
-                                                          JSON.parse(
-                                                              algset.algs
-                                                          )[0].alg
-                                                      )
+                                                algset.algs.length > 0
+                                                    ? algset.algs[0]
+                                                          .convertedAlg
                                                     : ""
                                             }`}
                                             alt="cube"
@@ -287,7 +278,7 @@ const Algsets = ({ open, onClose }) => {
                                                 <span className="font-semibold">
                                                     Algs:
                                                 </span>{" "}
-                                                {JSON.parse(algset.algs).length}
+                                                {algset.algs.length}
                                             </div>
                                             <div className="lg:text-base text-sm">
                                                 <span className="font-semibold">

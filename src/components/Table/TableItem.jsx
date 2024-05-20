@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import convertAlg from "../../util/convertAlg";
 import formatTime from "../../util/formatTime";
 
 const TableItem = ({ data, sortBy }) => {
@@ -8,11 +7,13 @@ const TableItem = ({ data, sortBy }) => {
     const [times, setTimes] = useState([]);
     const [view, setView] = useState("Planted");
     const [highlighting, setHighlighting] = useState("All");
+    const [algset, setAlgset] = useState({});
 
     useEffect(() => {
         const algset = JSON.parse(localStorage.getItem("algset"));
         if (algset) {
-            const timeData = JSON.parse(algset.times);
+            setAlgset(algset);
+            const timeData = algset.times;
             if (timeData) {
                 setTimes([]);
                 for (let i = 0; i < timeData.length; i++) {
@@ -21,7 +22,7 @@ const TableItem = ({ data, sortBy }) => {
                     }
                 }
             }
-            const settings = JSON.parse(algset.settings);
+            const settings = algset.settings;
             if (settings.length > 0) {
                 setView(settings[0]);
                 setHighlighting(settings[1]);
@@ -50,15 +51,12 @@ const TableItem = ({ data, sortBy }) => {
             <td className="border border-gray-600">
                 <img
                     src={`https://cubiclealgdbimagegen.azurewebsites.net/generator?&puzzle=${
-                        JSON.parse(localStorage.getItem("algset")).puzzle ===
-                        "3x3"
-                            ? "3"
-                            : "2"
+                        algset && algset.puzzle === "3x3" ? "3" : "2"
                     }&size=200&view=${view === "Planted" && "plan"}${
                         highlighting === "OLL" ? "&stage=oll" : ""
-                    }${
-                        highlighting === "F2L" ? "&stage=f2l" : ""
-                    }&case=${convertAlg(data.alg)}`}
+                    }${highlighting === "F2L" ? "&stage=f2l" : ""}&case=${
+                        data.convertedAlg
+                    }`}
                     alt={data.name}
                 />
             </td>
