@@ -1,6 +1,6 @@
 const formatTime = (time) => {
-    let minutes = Math.floor(time / 3600);
-    let remainingMiliseconds = time % 3600;
+    let minutes = Math.floor(time / 6000);
+    let remainingMiliseconds = time % 6000;
     let seconds = Math.floor(remainingMiliseconds / 100);
     let miliseconds = remainingMiliseconds % 100;
 
