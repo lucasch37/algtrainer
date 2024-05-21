@@ -149,8 +149,8 @@ const TrainerMobile = () => {
 
     const saveTime = (times) => {
         const algset = JSON.parse(localStorage.getItem("algset"));
-        algset.times = JSON.stringify(times);
-        localStorage.setItem("algset", JSON.stringify(algset));
+        algset.times = times;
+        localStorage.setItem("algset", algset);
         saveAlgset(JSON.parse(localStorage.getItem("algset")));
     };
 

@@ -242,8 +242,7 @@ const Trainer = () => {
                             >
                                 {algset ? algset.selectedAlgs.length : 0}{" "}
                                 {algset
-                                    ? JSON.parse(localStorage.getItem("algset"))
-                                          .selectedAlgs.length !== 1
+                                    ? algset.selectedAlgs.length !== 1
                                         ? "cases selected"
                                         : "case selected"
                                     : "cases selected"}
