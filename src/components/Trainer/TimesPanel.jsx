@@ -41,7 +41,7 @@ const TimesPanel = ({ times, setSavedTimes }) => {
                 Times
             </div>
             {selectedTime ? (
-                <div className="flex flex-col flex-grow items-center relative overflow-y-scroll">
+                <div className="flex flex-col flex-grow items-center relative overflow-y-auto">
                     <button
                         className="absolute top-2 left-2 bg-gray-400 p-1 rounded-lg lg:p-2"
                         onClick={() => {
@@ -96,7 +96,7 @@ const TimesPanel = ({ times, setSavedTimes }) => {
                     <div className="flex justify-center font-bold my-1 lg:text-base text-sm">
                         Total: {times.length}
                     </div>
-                    <div className="flex flex-wrap justify-center lg:m-2 lg:mt-0 overflow-y-scroll">
+                    <div className="flex flex-wrap justify-center lg:m-2 lg:mt-0 overflow-y-auto">
                         {times.map((time, index) => (
                             <button
                                 key={index}

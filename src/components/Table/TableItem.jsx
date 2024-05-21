@@ -51,7 +51,7 @@ const TableItem = ({ data, sortBy }) => {
             <td className="border border-gray-600">
                 <img
                     src={`https://cubiclealgdbimagegen.azurewebsites.net/generator?&puzzle=${
-                        algset && algset.puzzle === "3x3" ? "3" : "2"
+                        algset && algset.puzzle === "2x2" ? "2" : "3"
                     }&size=200&view=${view === "Planted" && "plan"}${
                         highlighting === "OLL" ? "&stage=oll" : ""
                     }${highlighting === "F2L" ? "&stage=f2l" : ""}&case=${

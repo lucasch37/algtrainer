@@ -248,7 +248,7 @@ const Trainer = () => {
                                     : "cases selected"}
                             </div>
                             <div
-                                className={`font-['Menlo'] text-8xl font-bold ${
+                                className={`font-["Roboto_Mono"] text-8xl font-semibold ${
                                     highlighted && alg && "text-green-500"
                                 } `}
                             >

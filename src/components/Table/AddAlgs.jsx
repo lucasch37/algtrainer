@@ -161,7 +161,7 @@ const AddAlgs = ({ open, onClose }) => {
                 <div className="lg:text-3xl text-xl p-4 font-semibold">
                     Add/Edit Algorithms
                 </div>
-                <div className="bg-gray-700 h-[450px] flex overflow-y-scroll">
+                <div className="bg-gray-700 h-[450px] flex overflow-y-auto">
                     <div className="border-r text-start w-fit border-gray-400 sticky top-0 lg:text-base text-xs">
                         <div
                             className={`lg:px-4 lg:py-3 px-2 py-1 hover:bg-[#283445] cursor-pointer ${

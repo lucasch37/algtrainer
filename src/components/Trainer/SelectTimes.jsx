@@ -19,15 +19,21 @@ const Alg = ({ alg, state, setSelectedAlgs, setCount, open, algset }) => {
         } else {
             setSelected(true);
         }
-    }, [open]);
+        if (algset) {
+            setView(algset.settings[0]);
+            setHighlighting(algset.settings[1]);
+        }
+    }, []);
 
     useEffect(() => {
         if (state === "t") {
             setSelected(true);
         } else if (state === "f") {
             setSelected(false);
-        } else {
+        } else if (state) {
             setSelected(state);
+        } else if (state === false) {
+            setSelected(false);
         }
     }, [state]);
 
@@ -49,17 +55,10 @@ const Alg = ({ alg, state, setSelectedAlgs, setCount, open, algset }) => {
         }
     }, [selected]);
 
-    useEffect(() => {
-        if (algset) {
-            setView(algset.settings[0]);
-            setHighlighting(algset.settings[1]);
-        }
-    }, []);
-
     return (
         <div
-            className={`p-1 flex flex-col items-center justify-center m-1.5 rounded-lg text-lg cursor-pointer ${
-                selected ? "bg-gray-400" : "bg-gray-600 text-gray-400"
+            className={`p-1 flex flex-col items-center justify-center m-1.5 rounded text-lg cursor-pointer ${
+                selected ? "bg-sky-500" : "bg-gray-600 text-gray-400"
             }`}
             onClick={() => setSelected((prev) => !prev)}
         >
@@ -80,7 +79,7 @@ const Alg = ({ alg, state, setSelectedAlgs, setCount, open, algset }) => {
 };
 
 const SelectTimes = ({ open, onClose }) => {
-    const [state, setState] = useState(true);
+    const [state, setState] = useState(null);
     const [selectedAlgs, setSelectedAlgs] = useState([]);
     const [algs, setAlgs] = useState([]);
     const [algset, setAlgset] = useState({});
@@ -104,20 +103,26 @@ const SelectTimes = ({ open, onClose }) => {
         }
     }, []);
 
+    useEffect(() => {
+        const algset = JSON.parse(localStorage.getItem("algset"));
+        setCount(algset.algs.length);
+        setState(null);
+    }, [open]);
+
     return (
         <Popup open={open}>
             <div className="lg:w-[900px] w-[350px] rounded-xl overflow-hidden">
                 <div className="lg:text-3xl text-xl p-3 font-semibold">
                     Select Algorithms to Train
                 </div>
-                <div className="bg-gray-700 h-[450px] flex overflow-y-scroll">
+                <div className="bg-gray-700 h-[450px] flex overflow-y-auto">
                     <div className="px-4 py-2 w-full">
                         <div className="text-center font-bold text-2xl lg:text-3xl">
                             Total: {count}
                         </div>
                         <div className="justify-center flex">
                             <button
-                                className="m-1 bg-green-700 text-green-300 py-2 px-4 rounded-xl lg:text-base text-sm"
+                                className="m-1 bg-green-700 text-green-300 py-1 px-3 rounded-xl lg:text-base text-sm"
                                 onClick={() => {
                                     if (state && state !== "t") {
                                         setState("t");
@@ -129,7 +134,7 @@ const SelectTimes = ({ open, onClose }) => {
                                 Select All
                             </button>
                             <button
-                                className="m-1 bg-red-800 text-red-300 py-2 px-4 p-2 rounded-xl lg:text-base text-sm"
+                                className="m-1 bg-red-800 text-red-300 py-1 px-3 p-2 rounded-xl lg:text-base text-sm"
                                 onClick={() => {
                                     if (!state) {
                                         setState("f");

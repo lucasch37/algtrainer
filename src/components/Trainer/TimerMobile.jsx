@@ -8,8 +8,8 @@ const TimerMobile = ({ runTimer, setTime, time }) => {
         if (runTimer) {
             setTime(0);
             timerId.current = setInterval(() => {
-                setTime((prev) => prev + 10);
-            }, 100);
+                setTime((prev) => prev + 1);
+            }, 10);
         } else {
             clearInterval(timerId.current);
         }

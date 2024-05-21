@@ -61,7 +61,7 @@ const CreateNewPopup = ({ open, onClose }) => {
                 <div className="lg:text-3xl text-xl p-4 font-semibold ">
                     Create New Algset
                 </div>
-                <div className="bg-gray-700 h-fit flex overflow-y-scroll">
+                <div className="bg-gray-700 h-fit flex overflow-y-auto">
                     <div className="px-3 py-2 w-full">
                         <div className="flex items-center">
                             <div className="font-semibold text-xl">Name:</div>
@@ -186,7 +186,7 @@ const Algsets = ({ open, onClose }) => {
                 <div className="lg:text-3xl text-xl p-4 font-semibold ">
                     Algsets
                 </div>
-                <div className="bg-gray-700 lg:h-[500px] h-[60vh] flex overflow-y-scroll">
+                <div className="bg-gray-700 lg:h-[500px] h-[60vh] flex overflow-y-auto">
                     <div className="px-4 py-3 w-full">
                         <div className="flex flex-wrap items-center border-b border-gray-400 pb-2 mb-2">
                             <div className="font-semibold lg:text-2xl">

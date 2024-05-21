@@ -150,7 +150,7 @@ const TrainerMobile = () => {
     const saveTime = (times) => {
         const algset = JSON.parse(localStorage.getItem("algset"));
         algset.times = times;
-        localStorage.setItem("algset", algset);
+        localStorage.setItem("algset", JSON.stringify(algset));
         saveAlgset(JSON.parse(localStorage.getItem("algset")));
     };
 
@@ -276,7 +276,7 @@ const TrainerMobile = () => {
                                 id="timer"
                             >
                                 <div
-                                    className={`font-['Menlo'] text-6xl font-bold ${
+                                    className={`font-["Roboto_Mono"] text-6xl font-semibold ${
                                         highlighted === "green" &&
                                         alg &&
                                         "text-green-500"

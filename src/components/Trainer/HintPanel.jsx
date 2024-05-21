@@ -53,7 +53,7 @@ const HintPanel = ({ alg }) => {
                     <div className="text-center flex-grow flex items-center justify-center p-6">
                         {hints === 0 ? (
                             <>
-                                <div className="text-gray-400 lg:block">
+                                <div className="text-gray-400 lg:block lg:mb-0 mb-7">
                                     Press or hold right arrow key to view hints!
                                 </div>
                             </>

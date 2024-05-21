@@ -49,7 +49,7 @@ const Settings = ({ open, onClose }) => {
                 <div className="lg:text-3xl text-xl p-4 font-semibold ">
                     Settings
                 </div>
-                <div className="bg-gray-700 h-fit flex overflow-y-scroll">
+                <div className="bg-gray-700 h-fit flex overflow-y-auto">
                     <div className="px-4 py-3">
                         <div className="flex items-center">
                             <div className="lg:text-xl font-semibold mr-2">
