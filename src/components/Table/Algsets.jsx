@@ -84,7 +84,6 @@ const CreateNewPopup = ({ open, onClose }) => {
                             >
                                 <option value="3x3">3x3</option>
                                 <option value="2x2">2x2</option>
-                                <option value="Other">Other</option>
                             </select>
                         </div>
                     </div>

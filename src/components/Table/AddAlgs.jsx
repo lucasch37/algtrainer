@@ -10,7 +10,7 @@ const TextArea = ({ text, onChange }) => {
             value={text}
             onChange={onChange}
             type="text"
-            className="lg:w-[700px] w-[65vw] h-[400px] rounded-xl p-2 bg-[#283445] resize-none lg:text-base text-xs"
+            className="lg:w-[700px] w-[65vw] h-[320px] rounded-xl p-2 bg-[#283445] resize-none lg:text-base text-xs"
             placeholder={`Example:\nT: "R U R' U' R' F R2 U' R' U' R U R' F'"\nY: "F R U' R' U' R U R' F' R U R' U' R' F R F'"`}
         />
     );

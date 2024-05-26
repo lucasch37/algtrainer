@@ -132,7 +132,7 @@ const Table = () => {
             <About open={showAbout} onClose={() => setShowAbout(false)} />
             <div className="flex justify-center mt-4">
                 <div className=" rounded-xl overflow-hidden">
-                    <table className="bg-gray-700 w-[95vw]">
+                    <table className="bg-gray-700 w-[95vw] max-w-[1800px]">
                         <thead>
                             <tr className="bg-gray-800 rounded-t-xl lg:text-xl">
                                 <th className="w-[10%] p-2">

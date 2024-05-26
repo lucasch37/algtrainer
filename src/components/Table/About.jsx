@@ -19,7 +19,7 @@ const About = ({ open, onClose }) => {
                             algorithms in my time cubing, and I made to this
                             website to help speed up that process.
                         </div>
-                        <div className="flex">
+                        <div className="flex mt-2">
                             <a
                                 className="flex items-center text-blue-500 underline mb-4"
                                 href="https://www.worldcubeassociation.org/persons/2022CHEN24"
